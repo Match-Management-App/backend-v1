@@ -1,7 +1,8 @@
 package com.match_management.demo.stat;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StatRepository extends JpaRepository<Stat, Long> {
-    public Stat findByUserId(final Long userId);
+    public Optional<Stat> findByUserId(final Long userId);
 }

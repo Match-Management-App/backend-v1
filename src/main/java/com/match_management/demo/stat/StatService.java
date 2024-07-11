@@ -18,6 +18,38 @@ public class StatService {
     }
 
     public Stat findOne(final Long userId) {
-        return statRepository.findByUserId(userId);
+        return statRepository.findByUserId(userId).orElseThrow(RuntimeException::new);
+    }
+
+    @Transactional
+    public void accumulateGoalsStat(final Long userId, final int goalPoints) {
+        final Stat stat = statRepository.findByUserId(userId)
+                .orElseThrow(RuntimeException::new);
+
+        stat.accumulateGoalPoints(goalPoints);
+    }
+
+    @Transactional
+    public void accumulateAssistsStat(final Long userId, final int assistPoints) {
+        final Stat stat = statRepository.findByUserId(userId)
+                .orElseThrow(RuntimeException::new);
+
+        stat.accumulateAssistPoints(assistPoints);
+    }
+
+    @Transactional
+    public void accumulateAttendanceStat(final Long userId, final int attendancePoints) {
+        final Stat stat = statRepository.findByUserId(userId)
+                .orElseThrow(RuntimeException::new);
+
+        stat.accumulateAttendancePoints(attendancePoints);
+    }
+
+    @Transactional
+    public void accumulateDefencesStat(final Long userId, final int defencePoints) {
+        final Stat stat = statRepository.findByUserId(userId)
+                .orElseThrow(RuntimeException::new);
+
+        stat.accumulateDefencePoints(defencePoints);
     }
 }

@@ -29,4 +29,20 @@ public class Stat {
         this.defencePoints = 0L;
         this.attendancePoints = 0L;
     }
+
+    public void accumulateGoalPoints(final int goals) {
+        this.goalPoints += goals;
+    }
+
+    public void accumulateAssistPoints(final int assists) {
+        this.assistPoints += assists;
+    }
+
+    public void accumulateAttendancePoints(final int attendance) {
+        this.attendancePoints += attendance;
+    }
+
+    public void accumulateDefencePoints(final int defences) {
+        this.defencePoints += defences;
+    }
 }
