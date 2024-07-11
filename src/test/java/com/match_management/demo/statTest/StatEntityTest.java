@@ -1,7 +1,6 @@
 package com.match_management.demo.statTest;
 
 import com.match_management.demo.stat.Stat;
-import com.match_management.demo.stat.StatRepository;
 import com.match_management.demo.stat.StatService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
