@@ -20,6 +20,8 @@ public class UserEntityTest {
     private UserRepository userRepository;
     @Autowired
     private StatRepository statRepository;
+    @Autowired
+    private StatService statService;
 
     //user을 만들 때, stat entity 같이 생성
     @Test
@@ -39,6 +41,7 @@ public class UserEntityTest {
         assertThat(user.getPosition()).isEqualTo(position);
     }
 
+    // 유저 생성 했을 때, 초기 stat이 잘 init 되는지
     @Test
     public void ValidStatEntityWhenUserCreate() {
         //given
@@ -50,9 +53,35 @@ public class UserEntityTest {
 
         //then
         User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
-        System.out.println(user.getId());
         Stat stat = statRepository.findByUserId(user.getId()).orElseThrow(RuntimeException::new);
 
         assertThat(stat.getUserId()).isEqualTo(userId);
+        assertThat(stat.getGoalPoints()).isEqualTo(0);
+        assertThat(stat.getAssistPoints()).isEqualTo(0);
+        assertThat(stat.getAttendancePoints()).isEqualTo(0);
+        assertThat(stat.getDefencePoints()).isEqualTo(0);
+    }
+
+    //user가 자신의 stat을 올릴때, stat 엔티티에 적용이 되는지 확인
+    @Test
+    public void accumulateMyOwnStat() throws Exception {
+        //given
+        String name = "suhwpark";
+        String position = "middleFielder";
+
+        //when
+        Long userId = userService.create(name, position);
+        Stat stat = statRepository.findByUserId(userId).orElseThrow(RuntimeException::new);
+
+        statService.accumulateGoalsStat(userId, 1);
+        statService.accumulateAssistsStat(userId, 1);
+        statService.accumulateAttendanceStat(userId, 1);
+        statService.accumulateDefencesStat(userId, 1);
+
+        //then
+        assertThat(stat.getGoalPoints()).isEqualTo(1);
+        assertThat(stat.getAssistPoints()).isEqualTo(1);
+        assertThat(stat.getAttendancePoints()).isEqualTo(1);
+        assertThat(stat.getDefencePoints()).isEqualTo(1);
     }
 }
