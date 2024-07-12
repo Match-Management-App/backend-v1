@@ -4,5 +4,5 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StatRepository extends JpaRepository<Stat, Long> {
-    public Optional<Stat> findByUserId(final Long userId);
+    Optional<Stat> findByUserId(final Long userId);
 }
