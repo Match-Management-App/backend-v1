@@ -66,4 +66,18 @@ public class BoardTest {
         assertThat(board.getTitle()).isEqualTo("앙");
     }
 
+    //글을 삭제 할 떄
+    @Test
+    public void delete() {
+        //given
+        User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
+
+        //given
+        Long boardId = boardService.create(user.getId(), user.getName(), "내일 경기 투표");
+        boardService.delete(boardId);
+        //then
+
+        assertThatThrownBy(() -> boardRepository.findById(boardId).orElseThrow(RuntimeException::new))
+                .isInstanceOf(RuntimeException.class);
+    }
 }
