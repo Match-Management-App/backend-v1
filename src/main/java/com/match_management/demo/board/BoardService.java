@@ -24,4 +24,11 @@ public class BoardService {
 
         board.amendTitle(title);
     }
+
+    @Transactional
+    public void delete(final Long boardId) {
+        final Board board = boardRepository.findById(boardId).orElseThrow(RuntimeException::new);
+
+        boardRepository.delete(board);
+    }
 }
