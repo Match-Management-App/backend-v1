@@ -1,5 +1,9 @@
 package com.match_management.demo;
 
+import com.match_management.demo.board.Board;
+import com.match_management.demo.board.BoardRepository;
+import com.match_management.demo.board.BoardService;
+import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,10 +40,30 @@ public class BoardTest {
     //글쓴유저의 id를 Board가 가지고 있는지 확인
     @Test
     public void create() {
+        //given
+        User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
+
         //when
-        Board board = new Board(USER_ID);
+        Long boardId = boardService.create(user.getId(), user.getName(), "내일 경기 투표");
+        Board board = boardRepository.findById(boardId).orElseThrow(RuntimeException::new);
 
         //then
-        assertThat(board.getId()).isEqualTo(USER_ID);
+        assertThat(board.getUserId()).isEqualTo(USER_ID);
     }
+
+    //글을 수정할 때 수정이 잘 되는지
+    @Test
+    public void amendBoard() {
+        //given
+        User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
+
+        //given
+        Long boardId = boardService.create(user.getId(), user.getName(), "내일 경기 투표");
+        boardService.amend(boardId, "앙");
+        Board board = boardRepository.findById(boardId).orElseThrow(RuntimeException::new);
+
+        //then
+        assertThat(board.getTitle()).isEqualTo("앙");
+    }
+
 }
