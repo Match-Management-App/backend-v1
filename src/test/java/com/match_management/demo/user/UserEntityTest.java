@@ -1,5 +1,8 @@
 package com.match_management.demo.user;
 
+import com.match_management.demo.stat.Stat;
+import com.match_management.demo.stat.StatRepository;
+import com.match_management.demo.stat.StatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +18,8 @@ public class UserEntityTest {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private StatRepository statRepository;
 
     //user을 만들 때, stat entity 같이 생성
     @Test
@@ -37,8 +42,17 @@ public class UserEntityTest {
     @Test
     public void ValidStatEntityWhenUserCreate() {
         //given
+        String name = "suhwpark";
+        String position = "middleFielder";
 
         //when
+        Long userId = userService.create(name, position);
+
         //then
+        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        System.out.println(user.getId());
+        Stat stat = statRepository.findByUserId(user.getId()).orElseThrow(RuntimeException::new);
+
+        assertThat(stat.getUserId()).isEqualTo(userId);
     }
 }
