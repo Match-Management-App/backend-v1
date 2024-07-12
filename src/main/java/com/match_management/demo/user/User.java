@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,14 +20,22 @@ public class User {
     private Long statId;
     private String name;
     private String position;
+    private boolean authenticated;
 
     public User(final String name, final String position) {
         this.name = name;
         this.position = position;
+        this.authenticated = false;
     }
 
     public void setStatId(final Long statId) {
         this.statId = statId;
     }
 
+    public void authenticateCustomCode(final String code) {
+        if (!Objects.equals(code, "최강강몬유FC")) {
+            throw new RuntimeException();
+        }
+        authenticated = true;
+    }
 }
