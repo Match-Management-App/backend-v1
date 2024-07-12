@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
@@ -83,5 +84,40 @@ public class UserEntityTest {
         assertThat(stat.getAssistPoints()).isEqualTo(1);
         assertThat(stat.getAttendancePoints()).isEqualTo(1);
         assertThat(stat.getDefencePoints()).isEqualTo(1);
+    }
+
+    //지금은 몬유fc에 가입된 사람들만 사용하는 앱이기에, 개인 코드로 authentication 실패할 경우.
+    @Test
+    public void authenticationWithCustomCodeFailed() throws Exception {
+        //given
+        String code = "최강몬유FC";
+
+        String name = "suhwpark";
+        String position = "middleFielder";
+
+        //when
+        Long userId = userService.create(name, position);
+        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+
+        //then
+        assertThatThrownBy(() -> user.authenticateCustomCode(code))
+                .isInstanceOf(RuntimeException.class);
+    }
+
+    //개인 코드로 authentication가 일치 할 경우.
+    @Test
+    public void authenticationWithCustomCodeSuccess() throws Exception {
+        //given
+        String code = "최강강몬유FC";
+
+        String name = "suhwpark";
+        String position = "middleFielder";
+
+        //when
+        Long userId = userService.create(name, position);
+        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        user.authenticateCustomCode(code);
+        //then
+        assertThat(user.isAuthenticated()).isTrue();
     }
 }
