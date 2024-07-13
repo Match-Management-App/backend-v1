@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,9 +25,12 @@ public class Comment {
 
     private Long boardId;
 
+    private LocalDateTime updatedAt;
+
     public Comment(final Long userId, final Long boardId, final String text) {
         this.userId = userId;
         this.boardId = boardId;
         this.text = text;
+        this.updatedAt = LocalDateTime.now();
     }
 }
