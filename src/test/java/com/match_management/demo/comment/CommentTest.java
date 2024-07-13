@@ -40,7 +40,7 @@ public class CommentTest {
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //when
-        BOARD_ID = boardService.create(user.getId(), user.getName(), "내일 경기 투표");
+        BOARD_ID = boardService.create(user.getId(), user.getName(), "내일 경기 투표", false);
     }
 
     //게시글에 댓글 달기

@@ -17,12 +17,14 @@ public class Board {
     private Long userId;
     private String title;
     private String writer;
+    private boolean voteBoard;
     private LocalDateTime updatedAt;
 
-    public Board(final Long userId, final String writer, final String title) {
+    public Board(final Long userId, final String writer, final String title, final boolean voteBoard) {
         this.userId = userId;
         this.writer = writer;
         this.title = title;
+        this.voteBoard = voteBoard;
         this.updatedAt = LocalDateTime.now();
     }
 

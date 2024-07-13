@@ -41,7 +41,7 @@ public class BoardTest {
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //when
-        Long boardId = boardService.create(user.getId(), user.getName(), "내일 경기 투표");
+        Long boardId = boardService.create(user.getId(), user.getName(), "내일 경기 투표", false);
         Board board = boardRepository.findById(boardId).orElseThrow(RuntimeException::new);
 
         //then
@@ -55,7 +55,7 @@ public class BoardTest {
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //given
-        Long boardId = boardService.create(user.getId(), user.getName(), "내일 경기 투표");
+        Long boardId = boardService.create(user.getId(), user.getName(), "내일 경기 투표", false);
         boardService.amend(boardId, "앙");
         Board board = boardRepository.findById(boardId).orElseThrow(RuntimeException::new);
 
@@ -70,7 +70,7 @@ public class BoardTest {
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //given
-        Long boardId = boardService.create(user.getId(), user.getName(), "내일 경기 투표");
+        Long boardId = boardService.create(user.getId(), user.getName(), "내일 경기 투표", false);
         boardService.delete(boardId);
         //then
 

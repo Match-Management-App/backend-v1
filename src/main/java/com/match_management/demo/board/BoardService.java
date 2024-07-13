@@ -11,8 +11,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public Long create(final Long userId, final String writer, final String title) {
-        final Board board = new Board(userId, writer, title);
+    public Long create(final Long userId, final String writer, final String title, final boolean voteBoard) {
+        final Board board = new Board(userId, writer, title, voteBoard);
         boardRepository.save(board);
 
         return board.getId();
