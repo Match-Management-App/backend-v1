@@ -78,4 +78,21 @@ public class CommentTest {
         assertThat(commentList.get(1).getText()).isEqualTo(text2);
         assertThat(commentList.get(2).getText()).isEqualTo(text3);
     }
+
+    //댓글 수정
+    @Test
+    public void amendComment() {
+        //given
+        String text1 = "ㅎㅇ";
+        String amendText = "안녕하세여~";
+
+        //when
+        Long commentId = commentService.create(USER_ID, BOARD_ID, text1);
+        commentService.amend(commentId, amendText);
+
+        Comment comment = commentRepository.findByBoardId(BOARD_ID)
+                .orElseThrow(RuntimeException::new);
+        //then
+        assertThat(comment.getText()).isEqualTo(amendText);
+    }
 }
