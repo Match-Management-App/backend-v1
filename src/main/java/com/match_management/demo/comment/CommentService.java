@@ -25,4 +25,12 @@ public class CommentService {
         commentList.sort(Comparator.comparing(Comment::getUpdatedAt));
         return commentList;
     }
+
+    @Transactional
+    public void amend(final Long commentId, final String amendText) {
+        final Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(RuntimeException::new);
+
+        comment.amend(amendText);
+    }
 }

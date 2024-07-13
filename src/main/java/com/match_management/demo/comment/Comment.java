@@ -33,4 +33,8 @@ public class Comment {
         this.text = text;
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void amend(final String text) {
+        this.text = text;
+    }
 }
