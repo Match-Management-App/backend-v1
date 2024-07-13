@@ -1,8 +1,5 @@
-package com.match_management.demo;
+package com.match_management.demo.board;
 
-import com.match_management.demo.board.Board;
-import com.match_management.demo.board.BoardRepository;
-import com.match_management.demo.board.BoardService;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
