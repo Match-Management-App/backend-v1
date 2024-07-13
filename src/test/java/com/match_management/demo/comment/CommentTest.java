@@ -4,6 +4,7 @@ import com.match_management.demo.board.BoardService;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,26 @@ public class CommentTest {
         Comment comment = commentRepository.findByBoardId(commentId)
                 .orElseThrow(RuntimeException::new);
         assertThat(comment.getText()).isEqualTo(text);
+    }
+
+    //게시글의 모든 댓글 조회 (시간별 오름차순)
+    @Test
+    public void viewComment() {
+        //given
+        String text1 = "ㅎㅇ";
+        String text2 = "경기함??";
+        String text3 = "ㅇㅇ";
+
+        commentService.create(USER_ID, BOARD_ID, text1);
+        commentService.create(USER_ID, BOARD_ID, text2);
+        commentService.create(USER_ID, BOARD_ID, text3);
+
+        //when
+        List<Comment> commentList = commentService.viewAllComments(BOARD_ID);
+
+        //then
+        assertThat(commentList.get(0).getText()).isEqualTo(text1);
+        assertThat(commentList.get(1).getText()).isEqualTo(text2);
+        assertThat(commentList.get(2).getText()).isEqualTo(text3);
     }
 }

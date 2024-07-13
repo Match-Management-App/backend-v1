@@ -1,5 +1,7 @@
 package com.match_management.demo.comment;
 
+import java.util.Comparator;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,5 +17,12 @@ public class CommentService {
 
         commentRepository.save(comment);
         return comment.getId();
+    }
+
+    public List<Comment> viewAllComments(final Long boardId) {
+        final List<Comment> commentList = commentRepository.findAllByBoardId(boardId)
+                .orElseThrow(RuntimeException::new);
+        commentList.sort(Comparator.comparing(Comment::getUpdatedAt));
+        return commentList;
     }
 }
