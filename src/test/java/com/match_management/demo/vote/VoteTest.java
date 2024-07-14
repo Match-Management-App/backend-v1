@@ -89,7 +89,7 @@ public class VoteTest {
         List<String> result = voteService.votedName(BOARD_ID);
 
         //then
-        assertThat(result.size()).isEqualTo(3);
+        assertThat(result.size()).isEqualTo(4);
         assertThat(result.contains("su")).isTrue();
         assertThat(result.contains("suhwpark")).isTrue();
         assertThat(result.contains("niu")).isTrue();
