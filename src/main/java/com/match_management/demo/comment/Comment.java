@@ -17,14 +17,10 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(length = 200)
     private String text;
-
     private Long userId;
-
     private Long boardId;
-
     private LocalDateTime updatedAt;
 
     public Comment(final Long userId, final Long boardId, final String text) {
