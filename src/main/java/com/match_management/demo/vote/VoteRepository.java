@@ -11,7 +11,11 @@ import org.springframework.stereotype.Repository;
 public interface VoteRepository extends JpaRepository<Vote, Long> {
     Optional<List<Vote>> findAllByBoardId(final Long boardId);
 
-    @Query("select v from Vote v where v.boardId = :boardId and "
-            + "v.attendance = true ")
+    @Query("select v from Vote v where v.boardId = :boardId and"
+            + " v.attendance is true ")
     Optional<List<Vote>> findAllByBoardIdAndAttendanceIsTrue(@Param("boardId") final Long boardId);
+
+    @Query("select v from Vote v where v.boardId = :boardId and"
+            + " v.attendance is false ")
+    Optional<List<Vote>> findAllByBoardIdAndAttendanceIsFalse(@Param("boardId") final Long boardId);
 }
