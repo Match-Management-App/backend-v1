@@ -1,5 +1,6 @@
 package com.match_management.demo.vote;
 
+import com.match_management.demo.board.BoardRepository;
 import com.match_management.demo.board.BoardService;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
@@ -68,9 +69,9 @@ public class VoteTest {
         assertThat(voteResult.get(1)).isEqualTo(0);
     }
 
-    //투표한 사람의 명단
+    //투표를 참석으로 한 사람의 명단
     @Test
-    public void viewNameWhoVote() {
+    public void attendName() {
         //given
         Long user1 = userService.create("su", "forwoard");
         Long user2 = userService.create("suhwpark", "forwoard");
@@ -86,7 +87,7 @@ public class VoteTest {
         voteService.create(user5, BOARD_ID, false);
 
         //when
-        List<String> result = voteService.votedName(BOARD_ID);
+        List<String> result = voteService.attendNameList(BOARD_ID);
 
         //then
         assertThat(result.size()).isEqualTo(4);
@@ -95,5 +96,34 @@ public class VoteTest {
         assertThat(result.contains("niu")).isTrue();
         assertThat(result.contains("say")).isFalse();
         assertThat(result.contains("yong")).isFalse();
+    }
+
+    //투표를 불참으로 한 사람의 명단
+    @Test
+    public void absentName() {
+        //given
+        Long user1 = userService.create("su", "forwoard");
+        Long user2 = userService.create("suhwpark", "forwoard");
+        Long user3 = userService.create("say", "forwoard");
+        Long user4 = userService.create("niu", "forwoard");
+        Long user5 = userService.create("yong", "forwoard");
+
+        voteService.create(USER_ID, BOARD_ID, true);
+        voteService.create(user1, BOARD_ID, true);
+        voteService.create(user2, BOARD_ID, true);
+        voteService.create(user3, BOARD_ID, false);
+        voteService.create(user4, BOARD_ID, true);
+        voteService.create(user5, BOARD_ID, false);
+
+        //when
+        List<String> result = voteService.absentNameList(BOARD_ID);
+
+        //then
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.contains("su")).isFalse();
+        assertThat(result.contains("suhwpark")).isFalse();
+        assertThat(result.contains("niu")).isFalse();
+        assertThat(result.contains("say")).isTrue();
+        assertThat(result.contains("yong")).isTrue();
     }
 }
