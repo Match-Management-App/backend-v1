@@ -12,10 +12,10 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     Optional<List<Vote>> findAllByBoardId(final Long boardId);
 
     @Query("select v from Vote v where v.boardId = :boardId and"
-            + " v.attendance is true ")
+            + " v.attendance = true ")
     Optional<List<Vote>> findAllByBoardIdAndAttendanceIsTrue(@Param("boardId") final Long boardId);
 
     @Query("select v from Vote v where v.boardId = :boardId and"
-            + " v.attendance is false ")
+            + " v.attendance = false ")
     Optional<List<Vote>> findAllByBoardIdAndAttendanceIsFalse(@Param("boardId") final Long boardId);
 }
