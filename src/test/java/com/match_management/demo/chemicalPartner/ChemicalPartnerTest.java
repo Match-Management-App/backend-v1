@@ -72,5 +72,9 @@ public class ChemicalPartnerTest {
         List<String> names = chemicalPartnerService.getGoalPartner(user1);
 
         //then
+        assertThat(names.size()).isEqualTo(3);
+        assertThat(names.get(0)).isEqualTo("우규");
+        assertThat(names.get(1)).isEqualTo("상화");
+        assertThat(names.get(2)).isEqualTo("재국");
     }
 }

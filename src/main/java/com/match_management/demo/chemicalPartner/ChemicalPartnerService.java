@@ -43,4 +43,19 @@ public class ChemicalPartnerService {
                 })
                 .toList();
     }
+
+    public List<String> getGoalPartner(final Long userId) {
+        List<ChemicalPartner> chemicalPartners = chemicalPartnerRepository
+                .findByAssistMemberIdAndOrderByStat(userId, PageRequest.of(0, 3));
+
+        return chemicalPartners
+                .stream()
+                .map(c -> {
+                    User user = userRepository
+                            .findById(c.getGoalMemberId())
+                            .orElseThrow(RuntimeException::new);
+                    return user.getName();
+                })
+                .toList();
+    }
 }
