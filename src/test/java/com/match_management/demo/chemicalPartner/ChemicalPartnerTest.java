@@ -43,11 +43,11 @@ public class ChemicalPartnerTest {
 
     // 골 넣은 사람과 어시스트한 사람과 골 갯수를 통해, chemical table 생성
     @Test
-    public void viewMyBestGoalChemicalPartner() {
+    public void viewMyBestAssistsChemicalPartner() {
         //given
         chemicalPartnerService.create(user1, user3, 3, matchDate);
         chemicalPartnerService.create(user1, user2, 2, matchDate);
-        chemicalPartnerService.create(user1, user6, 4, matchDate);
+        chemicalPartnerService.create(user1, user5, 4, matchDate);
         chemicalPartnerService.create(user1, user6, 1, matchDate);
 
         //when
@@ -55,8 +55,22 @@ public class ChemicalPartnerTest {
 
         //then
         assertThat(names.size()).isEqualTo(3);
-        assertThat(names.get(0)).isEqualTo("우규");
+        assertThat(names.get(0)).isEqualTo("재국");
         assertThat(names.get(1)).isEqualTo("상화");
         assertThat(names.get(2)).isEqualTo("용수");
+    }
+
+    @Test
+    public void viewMyBestGoalChemicalPartner() {
+        //given
+        chemicalPartnerService.create(user3, user1, 3, matchDate);
+        chemicalPartnerService.create(user5, user1, 2, matchDate);
+        chemicalPartnerService.create(user6, user1, 4, matchDate);
+        chemicalPartnerService.create(user2, user1, 1, matchDate);
+
+        //when
+        List<String> names = chemicalPartnerService.getGoalPartner(user1);
+
+        //then
     }
 }
