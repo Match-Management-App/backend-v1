@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+//TODO
+// board에 투표 Matchday column 넣어 놓자
+// 어짜피 게시판은 투표 용으로 사용될거기 때문에, voteBoard가 소용이 없음
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
