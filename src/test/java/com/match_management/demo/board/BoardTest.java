@@ -32,7 +32,7 @@ public class BoardTest {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        USER_ID = userService.create(name, position);
+        USER_ID = userService.create(1L, name, position);
     }
 
     //글쓴유저의 id를 Board가 가지고 있는지 확인

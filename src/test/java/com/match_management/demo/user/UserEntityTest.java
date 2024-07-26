@@ -32,7 +32,7 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        Long userId = userService.create(name, position);
+        Long userId = userService.create(1L, name, position);
 
         //then
         User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
@@ -50,7 +50,7 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        Long userId = userService.create(name, position);
+        Long userId = userService.create(1L, name, position);
 
         //then
         User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
@@ -71,7 +71,7 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        Long userId = userService.create(name, position);
+        Long userId = userService.create(1L, name, position);
         Stat stat = statRepository.findByUserId(userId).orElseThrow(RuntimeException::new);
 
         statService.accumulateGoalsStat(userId, 1);
@@ -96,7 +96,7 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        Long userId = userService.create(name, position);
+        Long userId = userService.create(1L, name, position);
         User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
 
         //then
@@ -114,7 +114,7 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        Long userId = userService.create(name, position);
+        Long userId = userService.create(1L, name, position);
         User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         user.authenticateCustomCode(code);
         //then

@@ -37,7 +37,7 @@ public class CommentTest {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        USER_ID = userService.create(name, position);
+        USER_ID = userService.create(1L, name, position);
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //when

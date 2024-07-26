@@ -33,12 +33,12 @@ public class ChemicalPartnerTest {
 
     @BeforeEach
     public void setUp() {
-        user1 = userService.create("수환", "middleFielder");
-        user2 = userService.create("용수", "forward");
-        user3 = userService.create("상화", "middleFielder");
-        user4 = userService.create("용범", "forward");
-        user5 = userService.create("재국", "defender");
-        user6 = userService.create("우규", "middleFielder");
+        user1 = userService.create(1L, "수환", "middleFielder");
+        user2 = userService.create(2L, "용수", "forward");
+        user3 = userService.create(3L, "상화", "middleFielder");
+        user4 = userService.create(4L, "용범", "forward");
+        user5 = userService.create(5L, "재국", "defender");
+        user6 = userService.create(6L, "우규", "middleFielder");
     }
 
     // 골 넣은 사람과 어시스트한 사람과 골 갯수를 통해, chemical table 생성

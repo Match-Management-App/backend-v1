@@ -14,8 +14,8 @@ public class UserService {
     private final StatService statService;
 
     @Transactional
-    public Long create(final String name, final String position) {
-        final User user = new User(name, position);
+    public Long create(final Long oauthId, final String name, final String position) {
+        final User user = new User(oauthId, name, position);
 
         userRepository.save(user);
         final Long statId = statService.initStat(user.getId());
