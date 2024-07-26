@@ -21,19 +21,24 @@ public class Board {
     private Long userId;
     private String title;
     private String writer;
-    private boolean voteBoard;
+    private LocalDateTime matchDate;
     private LocalDateTime updatedAt;
 
-    public Board(final Long userId, final String writer, final String title, final boolean voteBoard) {
+    public Board(final Long userId, final String writer, final String title, final LocalDateTime matchDate) {
         this.userId = userId;
         this.writer = writer;
         this.title = title;
-        this.voteBoard = voteBoard;
+        this.matchDate = matchDate;
         this.updatedAt = LocalDateTime.now();
     }
 
     public void amendTitle(final String title) {
         this.title = title;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void amendMatchDate(final LocalDateTime matchDate) {
+        this.matchDate = matchDate;
         this.updatedAt = LocalDateTime.now();
     }
 }
