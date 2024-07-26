@@ -1,7 +1,5 @@
-package com.match_management.demo.statTest;
+package com.match_management.demo.stat;
 
-import com.match_management.demo.stat.Stat;
-import com.match_management.demo.stat.StatService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
