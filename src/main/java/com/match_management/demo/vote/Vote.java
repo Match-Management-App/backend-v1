@@ -24,4 +24,8 @@ public class Vote {
         this.boardId = boardId;
         this.attendance = isAttendance;
     }
+
+    public void changeVoted(final boolean attendance) {
+        this.attendance = attendance;
+    }
 }
