@@ -18,12 +18,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long oauthId;
     private Long statId;
     private String name;
     private String position;
     private boolean authenticated;
 
-    public User(final String name, final String position) {
+    public User(final Long oauthId, final String name, final String position) {
+        this.oauthId = oauthId;
         this.name = name;
         this.position = position;
         this.authenticated = false;
