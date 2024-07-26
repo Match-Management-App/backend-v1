@@ -5,6 +5,7 @@ import com.match_management.demo.board.BoardService;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,8 @@ public class VoteTest {
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //when
-        BOARD_ID = boardService.create(user.getId(), user.getName(), "내일 경기 투표", true);
+        BOARD_ID = boardService.create(user.getId(), user.getName(),
+                "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
     }
 
     // 한명이 참석으로 투표했을 경우의 test

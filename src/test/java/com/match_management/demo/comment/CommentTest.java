@@ -4,6 +4,7 @@ import com.match_management.demo.board.BoardService;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,8 @@ public class CommentTest {
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //when
-        BOARD_ID = boardService.create(user.getId(), user.getName(), "내일 경기 투표", false);
+        BOARD_ID = boardService.create(user.getId(), user.getName(),
+                "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
     }
 
     //게시글에 댓글 달기
