@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, Long> {
-    Optional<List<Vote>> findAllByBoardId(final Long boardId);
+    List<Vote> findAllByBoardId(final Long boardId);
 
     @Query("select v from Vote v where v.boardId = :boardId and"
             + " v.attendance = true ")
@@ -18,4 +18,10 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     @Query("select v from Vote v where v.boardId = :boardId and"
             + " v.attendance = false ")
     Optional<List<Vote>> findAllByBoardIdAndAttendanceIsFalse(@Param("boardId") final Long boardId);
+
+    @Query("select v from Vote v where v.userId = :userId AND FUNCTION('YEAR', v.matchDate) = :year"
+            + " AND FUNCTION('MONTH', v.matchDate) = :month")
+    List<Vote> findByUserIdMonthlyAttendance(@Param(value = "userId") final Long userId,
+                                             @Param(value = "year") final int year,
+                                             @Param(value = "month") final int month);
 }
