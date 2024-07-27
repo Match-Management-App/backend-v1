@@ -20,8 +20,7 @@ public class CommentService {
     }
 
     public List<Comment> viewAllComments(final Long boardId) {
-        final List<Comment> commentList = commentRepository.findAllByBoardId(boardId)
-                .orElseThrow(RuntimeException::new);
+        final List<Comment> commentList = commentRepository.findAllByBoardId(boardId);
         commentList.sort(Comparator.comparing(Comment::getUpdatedAt));
         return commentList;
     }
