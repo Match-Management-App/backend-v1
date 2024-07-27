@@ -1,5 +1,6 @@
 package com.match_management.demo.record;
 
+import com.match_management.demo.record.dto.TopStatMemberResponse;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,50 +57,74 @@ public class RecordService {
         record.accumulateDefencePoints(defencePoints);
     }
 
-    public List<String> getTop3GoalMembers() {
+    public List<TopStatMemberResponse> getTopGoalMembers() {
         final List<Record> records = recordRepository.findByGoalPointsDESC(PageRequest.of(0, 3));
 
         return records.stream()
-                .map(s -> {
-                    final User user = userRepository.findById(s.getUserId())
-                            .orElseThrow(RuntimeException::new);
-                    return user.getName();
-                })
+                .map(s -> TopStatMemberResponse
+                        .builder()
+                        .userName(
+                                userRepository
+                                        .findById(s.getUserId())
+                                        .orElseThrow(RuntimeException::new)
+                                        .getName()
+                        )
+                        .stats(s.getGoal())
+                        .build()
+                )
                 .toList();
     }
 
-    public List<String> getTopAssistMembers() {
+    public List<TopStatMemberResponse> getTopAssistMembers() {
         final List<Record> records = recordRepository.findByAssistPointsDESC(PageRequest.of(0, 3));
 
         return records.stream()
-                .map(s -> {
-                    final User user = userRepository.findById(s.getUserId())
-                            .orElseThrow(RuntimeException::new);
-                    return user.getName();
-                })
+                .map(s -> TopStatMemberResponse
+                        .builder()
+                        .userName(
+                                userRepository
+                                        .findById(s.getUserId())
+                                        .orElseThrow(RuntimeException::new)
+                                        .getName()
+                        )
+                        .stats(s.getAssist())
+                        .build()
+                )
                 .toList();
     }
 
-    public List<String> getTopDefenceMembers() {
+    public List<TopStatMemberResponse> getTopDefenceMembers() {
         final List<Record> records = recordRepository.findByDefencePointsDESC(PageRequest.of(0, 3));
 
         return records.stream()
-                .map(s -> {
-                    final User user = userRepository.findById(s.getUserId())
-                            .orElseThrow(RuntimeException::new);
-                    return user.getName();
-                })
+                .map(s -> TopStatMemberResponse
+                        .builder()
+                        .userName(
+                                userRepository
+                                        .findById(s.getUserId())
+                                        .orElseThrow(RuntimeException::new)
+                                        .getName()
+                        )
+                        .stats(s.getDefence())
+                        .build()
+                )
                 .toList();
     }
-    public List<String> getTopAttendanceMembers() {
+    public List<TopStatMemberResponse> getTopAttendanceMembers() {
         final List<Record> records = recordRepository.findByAttendancePointsDESC(PageRequest.of(0, 3));
 
         return records.stream()
-                .map(s -> {
-                    final User user = userRepository.findById(s.getUserId())
-                            .orElseThrow(RuntimeException::new);
-                    return user.getName();
-                })
+                .map(s -> TopStatMemberResponse
+                        .builder()
+                        .userName(
+                                userRepository
+                                        .findById(s.getUserId())
+                                        .orElseThrow(RuntimeException::new)
+                                        .getName()
+                        )
+                        .stats(s.getAttendance())
+                        .build()
+                )
                 .toList();
     }
 }
