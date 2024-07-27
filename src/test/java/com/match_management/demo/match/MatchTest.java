@@ -1,6 +1,8 @@
 package com.match_management.demo.match;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,5 +31,32 @@ public class MatchTest {
         //then
         assertThat(match.getDate()).isEqualTo(LocalDateTime.of(2024, 7, 20, 9, 0));
         assertThat(match.getSpot()).isEqualTo("탄천 유수지");
+    }
+
+    @Test
+    public void findByMonth() {
+        //given
+        matchService.create(2024, 7, 27, 9, "탄천 유수지");
+        matchService.create(2024, 7, 20, 9, "탄천 유수지");
+        matchService.create(2024, 7, 13, 9, "탄천 유수지");
+        matchService.create(2024, 7, 6, 9, "탄천 유수지");
+        matchService.create(2024, 6, 10, 9, "탄천 유수지");
+        matchService.create(2024, 6, 3, 9, "탄천 유수지");
+        matchService.create(2024, 6, 17, 9, "탄천 유수지");
+        matchService.create(2024, 5, 22, 9, "탄천 유수지");
+        matchService.create(2024, 5, 15, 9, "탄천 유수지");
+        matchService.create(2024, 3, 20, 9, "탄천 유수지");
+
+        //when
+        List<Match> julyMatch = matchRepository.findByMonth(2024, 7);
+        List<Match> juneMatch = matchRepository.findByMonth(2024, 6);
+        List<Match> mayMatch = matchRepository.findByMonth(2024, 5);
+        List<Match> aprilMatch = matchRepository.findByMonth(2024, 3);
+
+        //then
+        assertThat(julyMatch.size()).isEqualTo(4);
+        assertThat(juneMatch.size()).isEqualTo(3);
+        assertThat(mayMatch.size()).isEqualTo(2);
+        assertThat(aprilMatch.size()).isEqualTo(1);
     }
 }
