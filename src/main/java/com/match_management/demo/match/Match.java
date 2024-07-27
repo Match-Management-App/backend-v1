@@ -17,14 +17,19 @@ public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDateTime date;
     private String spot;
+    private int attendance;
 
     @Builder
-    public Match(final int year, final int month, final int day, final int hour, final String spot) {
+    public Match(final int year, final int month, final int day, final int hour,
+                 final String spot, final int attendance) {
         this.date = LocalDateTime.of(year, month, day, hour, 0);
         this.spot = spot;
+        this.attendance = attendance;
     }
 
+    public void setAttendance(final int attendance) {
+        this.attendance = attendance;
+    }
 }
