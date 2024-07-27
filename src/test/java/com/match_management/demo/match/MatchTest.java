@@ -14,16 +14,20 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class MatchTest {
     @Autowired
     MatchService matchService;
+    @Autowired
+    MatchRepository matchRepository;
 
     @Test
-    public void create() throws Exception {
+    public void create() {
         //given
         Long id = matchService.create(2024, 7, 20, 9, "탄천 유수지");
 
         //when
-        Match match = matchRepository.findById(id);
+        Match match = matchRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
 
         //then
-        assertThat(match.getDate()).isEqualTo(LocalDateTime.of(2024, 7, 20, 9));
+        assertThat(match.getDate()).isEqualTo(LocalDateTime.of(2024, 7, 20, 9, 0));
+        assertThat(match.getSpot()).isEqualTo("탄천 유수지");
     }
 }
