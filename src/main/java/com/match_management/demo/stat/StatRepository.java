@@ -5,25 +5,13 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StatRepository extends JpaRepository<Stat, Long> {
     Optional<Stat> findByUserId(final Long userId);
 
-    @Query("select s from Stat s "
-            + "ORDER BY s.goalPoints DESC")
-    List<Stat> findByGoalPointsDESC(final Pageable pageable);
-
-    @Query("select s from Stat s "
-            + "ORDER BY s.assistPoints DESC")
-    List<Stat> findByAssistPointsDESC(final Pageable pageable);
-
-    @Query("select s from Stat s "
-            + "ORDER BY s.defencePoints DESC")
-    List<Stat> findByDefencePointsDESC(final Pageable pageable);
-
-    @Query("select s from Stat s "
-            + "ORDER BY s.attendancePoints DESC")
-    List<Stat> findByAttendancePointsDESC(final Pageable pageable);
+    @Query("select s from Stat s where s.userId = :userId ORDER BY s.matchDate DESC")
+    List<Stat> findTop4DECS(@Param(value = "userId") final Long userId, Pageable pageable);
 }

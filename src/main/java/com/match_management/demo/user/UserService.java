@@ -1,7 +1,6 @@
 package com.match_management.demo.user;
 
-import com.match_management.demo.stat.Stat;
-import com.match_management.demo.stat.StatService;
+import com.match_management.demo.record.RecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,14 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
-    private final StatService statService;
+    private final RecordService recordService;
 
     @Transactional
     public Long create(final Long oauthId, final String name, final String position) {
         final User user = new User(oauthId, name, position);
 
         userRepository.save(user);
-        final Long statId = statService.initStat(user.getId());
+        final Long statId = recordService.initStat(user.getId());
         user.setStatId(statId);
 
         return user.getId();
