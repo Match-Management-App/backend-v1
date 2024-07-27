@@ -59,4 +59,16 @@ public class MatchTest {
         assertThat(mayMatch.size()).isEqualTo(2);
         assertThat(aprilMatch.size()).isEqualTo(1);
     }
+
+    //투표가 끝나고 참석 인원 set 해주는 함수
+    @Test
+    public void setAttendance() {
+        //given
+        Long id = matchService.create(2024, 7, 27, 9, "탄천 유수지");
+        //when
+        Match match = matchRepository.findById(id).orElseThrow(RuntimeException::new);
+        match.setAttendance(20);
+        //then
+        assertThat(match.getAttendance()).isEqualTo(20);
+    }
 }
