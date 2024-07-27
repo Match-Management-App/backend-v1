@@ -1,5 +1,6 @@
 package com.match_management.demo.stat;
 
+import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.record.RecordService;
 import com.match_management.demo.stat.dto.RecentlyStatResponse;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +47,11 @@ public class StatService {
     }
 
     //최근 4경기 내 기록
-    public List<RecentlyStatResponse> getStats(final Long userId) {
-        List<Stat> stats = statRepository.findTop4DECS(userId, PageRequest.of(0, 4));
+    public List<RecentlyStatResponse> getStats(final AuthUser authUser) {
+        List<Stat> stats = statRepository.findTop4DECS(
+                authUser.getOauthId(),
+                PageRequest.of(0, 4)
+        );
 
         return stats.stream()
                 .map(s -> RecentlyStatResponse
