@@ -1,5 +1,8 @@
 package com.match_management.demo.user;
 
+import com.match_management.demo.record.Record;
+import com.match_management.demo.record.RecordRepository;
+import com.match_management.demo.record.RecordService;
 import com.match_management.demo.stat.Stat;
 import com.match_management.demo.stat.StatRepository;
 import com.match_management.demo.stat.StatService;
@@ -20,9 +23,9 @@ public class UserEntityTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private StatRepository statRepository;
+    private RecordService recordService;
     @Autowired
-    private StatService statService;
+    private RecordRepository recordRepository;
 
     //user을 만들 때, stat entity 같이 생성
     @Test
@@ -54,13 +57,13 @@ public class UserEntityTest {
 
         //then
         User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
-        Stat stat = statRepository.findByUserId(user.getId()).orElseThrow(RuntimeException::new);
+        Record record = recordRepository.findByUserId(user.getId()).orElseThrow(RuntimeException::new);
 
-        assertThat(stat.getUserId()).isEqualTo(userId);
-        assertThat(stat.getGoalPoints()).isEqualTo(0);
-        assertThat(stat.getAssistPoints()).isEqualTo(0);
-        assertThat(stat.getAttendancePoints()).isEqualTo(0);
-        assertThat(stat.getDefencePoints()).isEqualTo(0);
+        assertThat(record.getUserId()).isEqualTo(userId);
+        assertThat(record.getGoal()).isEqualTo(0);
+        assertThat(record.getAssist()).isEqualTo(0);
+        assertThat(record.getAttendance()).isEqualTo(0);
+        assertThat(record.getDefence()).isEqualTo(0);
     }
 
     //user가 자신의 stat을 올릴때, stat 엔티티에 적용이 되는지 확인
@@ -72,18 +75,18 @@ public class UserEntityTest {
 
         //when
         Long userId = userService.create(1L, name, position);
-        Stat stat = statRepository.findByUserId(userId).orElseThrow(RuntimeException::new);
+        Record record = recordRepository.findByUserId(userId).orElseThrow(RuntimeException::new);
 
-        statService.accumulateGoalsStat(userId, 1);
-        statService.accumulateAssistsStat(userId, 1);
-        statService.accumulateAttendanceStat(userId, 1);
-        statService.accumulateDefencesStat(userId, 1);
+        recordService.accumulateGoalsStat(userId, 1);
+        recordService.accumulateAssistsStat(userId, 1);
+        recordService.accumulateAttendanceStat(userId, 1);
+        recordService.accumulateDefencesStat(userId, 1);
 
         //then
-        assertThat(stat.getGoalPoints()).isEqualTo(1);
-        assertThat(stat.getAssistPoints()).isEqualTo(1);
-        assertThat(stat.getAttendancePoints()).isEqualTo(1);
-        assertThat(stat.getDefencePoints()).isEqualTo(1);
+        assertThat(record.getGoal()).isEqualTo(1);
+        assertThat(record.getAssist()).isEqualTo(1);
+        assertThat(record.getAttendance()).isEqualTo(1);
+        assertThat(record.getDefence()).isEqualTo(1);
     }
 
     //지금은 몬유fc에 가입된 사람들만 사용하는 앱이기에, 개인 코드로 authentication 실패할 경우.
