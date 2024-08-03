@@ -29,12 +29,10 @@ public class MatchController {
 
     @GetMapping("/month")
     public ResponseEntity<List<MonthlyScheduleResponse>> monthlyMatches(@AuthUserInfo final AuthUser authUser,
-                                                                        @RequestParam(name = "date") final int month) {
+                                                                        @RequestParam(name = "month") final int month) {
         return ResponseEntity
                 .ok(
                         matchService.findSchedulesByMonth(2024, month)
                 );
     }
-
-
 }
