@@ -22,4 +22,12 @@ public class UserService {
 
         return user.getId();
     }
+
+    public String getUserNameByAssistId(final Long assistId) {
+        return userRepository.findByOauthId(assistId).orElseThrow(RuntimeException::new).getName();
+    }
+
+    public String getUserNameByGoalId(final Long goalId) {
+        return userRepository.findByOauthId(goalId).orElseThrow(RuntimeException::new).getName();
+    }
 }

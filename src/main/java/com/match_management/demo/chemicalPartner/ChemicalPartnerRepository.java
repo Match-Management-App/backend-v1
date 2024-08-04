@@ -29,4 +29,17 @@ public interface ChemicalPartnerRepository extends JpaRepository<ChemicalPartner
     List<ChemicalPartner> findByAssistMemberIdAndOrderByStat(
             @Param("userId") final Long userId, final Pageable pageable
     );
+
+    @Query("select c from ChemicalPartner c "
+            + "where c.goalMemberId = :userId ORDER BY c.stat ASC")
+    List<ChemicalPartner> findByWorstGoalMemberIdAndOrderByStat(
+            @Param("userId") final Long userId,
+            final Pageable pageable
+    );
+
+    @Query("select c from ChemicalPartner c "
+            + "where c.assistMemberId = :userId ORDER BY c.stat ASC")
+    List<ChemicalPartner> findByWorstAssistMemberIdAndOrderByStat(
+            @Param("userId") final Long userId, final Pageable pageable
+    );
 }

@@ -1,9 +1,10 @@
 package com.match_management.demo.chemicalPartner;
 
+import com.match_management.demo.chemicalPartner.dto.ChemicalResponse;
 import com.match_management.demo.user.UserService;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +52,12 @@ public class ChemicalPartnerTest {
         chemicalPartnerService.create(user1, user6, 1, matchDate);
 
         //when
-        List<String> names = chemicalPartnerService.getAssistPartner(user1);
+        ChemicalResponse chemicalResponse = chemicalPartnerService.getBestAssistPartner(user1);
 
         //then
-        assertThat(names.size()).isEqualTo(3);
-        assertThat(names.get(0)).isEqualTo("재국");
-        assertThat(names.get(1)).isEqualTo("상화");
-        assertThat(names.get(2)).isEqualTo("용수");
+        assertThat(chemicalResponse.getFirst()).isEqualTo("재국");
+        assertThat(chemicalResponse.getSecond()).isEqualTo("상화");
+        assertThat(chemicalResponse.getThird()).isEqualTo("용수");
     }
 
     @Test
@@ -69,12 +69,11 @@ public class ChemicalPartnerTest {
         chemicalPartnerService.create(user2, user1, 1, matchDate);
 
         //when
-        List<String> names = chemicalPartnerService.getGoalPartner(user1);
+        ChemicalResponse names = chemicalPartnerService.getBestGoalPartner(user1);
 
         //then
-        assertThat(names.size()).isEqualTo(3);
-        assertThat(names.get(0)).isEqualTo("우규");
-        assertThat(names.get(1)).isEqualTo("상화");
-        assertThat(names.get(2)).isEqualTo("재국");
+        assertThat(names.getFirst()).isEqualTo("우규");
+        assertThat(names.getSecond()).isEqualTo("상화");
+        assertThat(names.getThird()).isEqualTo("재국");
     }
 }
