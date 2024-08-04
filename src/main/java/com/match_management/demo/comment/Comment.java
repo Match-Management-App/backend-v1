@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ public class Comment {
     private Long boardId;
     private LocalDateTime updatedAt;
 
+    @Builder
     public Comment(final Long userId, final Long boardId, final String text) {
         this.userId = userId;
         this.boardId = boardId;

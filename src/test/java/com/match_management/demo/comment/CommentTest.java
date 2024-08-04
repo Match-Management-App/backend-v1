@@ -1,6 +1,7 @@
 package com.match_management.demo.comment;
 
 import com.match_management.demo.board.BoardService;
+import com.match_management.demo.comment.dto.CommentsResponse;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
@@ -73,7 +74,7 @@ public class CommentTest {
         commentService.create(USER_ID, BOARD_ID, text3);
 
         //when
-        List<Comment> commentList = commentService.viewAllComments(BOARD_ID);
+        List<CommentsResponse> commentList = commentService.viewAllComments(BOARD_ID);
 
         //then
         assertThat(commentList.get(0).getText()).isEqualTo(text1);
