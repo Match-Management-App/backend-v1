@@ -81,6 +81,7 @@ public class VoteService {
     }
 
     //월별 참석 여부
+    //TODO 참석자 몇명인지 추가해야함
     public List<MonthlyAttendanceResponse> findAttendanceByMonth(final Long userId, final int year, final int month) {
         final List<Vote> votes = voteRepository.findByUserIdMonthlyAttendance(userId, year, month);
 
