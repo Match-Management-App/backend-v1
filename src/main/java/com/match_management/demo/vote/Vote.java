@@ -5,8 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -17,11 +20,19 @@ public class Vote {
     private Long id;
     private Long userId;
     private Long boardId;
+    private LocalDateTime matchDate;
     private boolean attendance;
 
-    public Vote(final Long userId, final Long boardId, final boolean isAttendance) {
+    @Builder
+    public Vote(final Long userId, final Long boardId,
+                final LocalDateTime date, final boolean isAttendance) {
         this.userId = userId;
         this.boardId = boardId;
+        this.matchDate = date;
         this.attendance = isAttendance;
+    }
+
+    public void changeVoted(final boolean attendance) {
+        this.attendance = attendance;
     }
 }

@@ -1,9 +1,11 @@
 package com.match_management.demo.comment;
 
 import com.match_management.demo.board.BoardService;
+import com.match_management.demo.comment.dto.CommentsResponse;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,11 +38,12 @@ public class CommentTest {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        USER_ID = userService.create(name, position);
+        USER_ID = userService.create(1L, name, position);
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //when
-        BOARD_ID = boardService.create(user.getId(), user.getName(), "내일 경기 투표", false);
+        BOARD_ID = boardService.create(user.getId(), user.getName(),
+                "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
     }
 
     //게시글에 댓글 달기
@@ -71,7 +74,7 @@ public class CommentTest {
         commentService.create(USER_ID, BOARD_ID, text3);
 
         //when
-        List<Comment> commentList = commentService.viewAllComments(BOARD_ID);
+        List<CommentsResponse> commentList = commentService.viewAllComments(BOARD_ID);
 
         //then
         assertThat(commentList.get(0).getText()).isEqualTo(text1);

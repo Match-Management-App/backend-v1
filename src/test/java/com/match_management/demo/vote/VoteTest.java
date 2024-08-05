@@ -1,10 +1,10 @@
 package com.match_management.demo.vote;
 
-import com.match_management.demo.board.BoardRepository;
 import com.match_management.demo.board.BoardService;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,11 +37,12 @@ public class VoteTest {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        USER_ID = userService.create(name, position);
+        USER_ID = userService.create(1L, name, position);
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //when
-        BOARD_ID = boardService.create(user.getId(), user.getName(), "내일 경기 투표", true);
+        BOARD_ID = boardService.create(user.getId(), user.getName(),
+                "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
     }
 
     // 한명이 참석으로 투표했을 경우의 test
@@ -73,11 +74,11 @@ public class VoteTest {
     @Test
     public void attendName() {
         //given
-        Long user1 = userService.create("su", "forwoard");
-        Long user2 = userService.create("suhwpark", "forwoard");
-        Long user3 = userService.create("say", "forwoard");
-        Long user4 = userService.create("niu", "forwoard");
-        Long user5 = userService.create("yong", "forwoard");
+        Long user1 = userService.create(1L, "su", "forwoard");
+        Long user2 = userService.create(2L, "suhwpark", "forwoard");
+        Long user3 = userService.create(3L, "say", "forwoard");
+        Long user4 = userService.create(4L, "niu", "forwoard");
+        Long user5 = userService.create(5L, "yong", "forwoard");
 
         voteService.create(USER_ID, BOARD_ID, true);
         voteService.create(user1, BOARD_ID, true);
@@ -102,11 +103,11 @@ public class VoteTest {
     @Test
     public void absentName() {
         //given
-        Long user1 = userService.create("su", "forwoard");
-        Long user2 = userService.create("suhwpark", "forwoard");
-        Long user3 = userService.create("say", "forwoard");
-        Long user4 = userService.create("niu", "forwoard");
-        Long user5 = userService.create("yong", "forwoard");
+        Long user1 = userService.create(1L, "su", "forwoard");
+        Long user2 = userService.create(2L, "suhwpark", "forwoard");
+        Long user3 = userService.create(3L, "say", "forwoard");
+        Long user4 = userService.create(4L, "niu", "forwoard");
+        Long user5 = userService.create(5L, "yong", "forwoard");
 
         voteService.create(USER_ID, BOARD_ID, true);
         voteService.create(user1, BOARD_ID, true);

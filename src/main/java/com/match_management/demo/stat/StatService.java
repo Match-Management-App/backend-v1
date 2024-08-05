@@ -1,56 +1,67 @@
 package com.match_management.demo.stat;
 
+import com.match_management.demo.auth.AuthUser;
+import com.match_management.demo.record.RecordService;
+import com.match_management.demo.stat.dto.RecentlyStatResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class StatService {
     final private StatRepository statRepository;
+    final private RecordService recordService;
 
     @Transactional
-    public Long initStat(final Long userId) {
-        final Stat stat = new Stat(userId);
+    public Long create(final Long userId, final String matchDate,
+                       final int goal, final int assist, final int defence) {
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        final Stat stat = Stat.builder()
+                .userId(userId)
+                .matchDate(LocalDateTime.parse(matchDate, formatter))
+                .goal(goal)
+                .assist(assist)
+                .defence(defence)
+                .build();
 
         statRepository.save(stat);
+
+        if (goal != 0) {
+            recordService.accumulateGoalsStat(userId, goal);
+        }
+        if (assist != 0) {
+            recordService.accumulateAssistsStat(userId, assist);
+        }
+        if (defence != 0) {
+            recordService.accumulateDefencesStat(userId, defence);
+        }
+
         return stat.getId();
     }
 
-    public Stat findOne(final Long userId) {
-        return statRepository.findByUserId(userId).orElseThrow(RuntimeException::new);
-    }
+    //최근 4경기 내 기록
+    public List<RecentlyStatResponse> getStats(final AuthUser authUser) {
+        List<Stat> stats = statRepository.findTop4DECS(
+                authUser.getOauthId(),
+                PageRequest.of(0, 4)
+        );
 
-    @Transactional
-    public void accumulateGoalsStat(final Long userId, final int goalPoints) {
-        final Stat stat = statRepository.findByUserId(userId)
-                .orElseThrow(RuntimeException::new);
-
-        stat.accumulateGoalPoints(goalPoints);
-    }
-
-    @Transactional
-    public void accumulateAssistsStat(final Long userId, final int assistPoints) {
-        final Stat stat = statRepository.findByUserId(userId)
-                .orElseThrow(RuntimeException::new);
-
-        stat.accumulateAssistPoints(assistPoints);
-    }
-
-    @Transactional
-    public void accumulateAttendanceStat(final Long userId, final int attendancePoints) {
-        final Stat stat = statRepository.findByUserId(userId)
-                .orElseThrow(RuntimeException::new);
-
-        stat.accumulateAttendancePoints(attendancePoints);
-    }
-
-    @Transactional
-    public void accumulateDefencesStat(final Long userId, final int defencePoints) {
-        final Stat stat = statRepository.findByUserId(userId)
-                .orElseThrow(RuntimeException::new);
-
-        stat.accumulateDefencePoints(defencePoints);
+        return stats.stream()
+                .map(s -> RecentlyStatResponse
+                        .builder()
+                        .date(s.getMatchDate())
+                        .goals(s.getGoal())
+                        .assist(s.getAssist())
+                        .defence(s.getDefence())
+                        .build()
+                )
+                .toList();
     }
 }

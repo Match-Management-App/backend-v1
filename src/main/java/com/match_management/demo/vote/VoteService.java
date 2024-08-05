@@ -1,11 +1,15 @@
 package com.match_management.demo.vote;
 
+import com.match_management.demo.board.Board;
+import com.match_management.demo.board.BoardRepository;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.match_management.demo.vote.dto.MonthlyAttendanceResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -16,10 +20,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class VoteService {
     private final VoteRepository voteRepository;
     private final UserRepository userRepository;
-
+    private final BoardRepository boardRepository;
     @Transactional
     public Long create(final Long userId, final Long boardId, final boolean isAttendance) {
-        final Vote vote = new Vote(userId, boardId, isAttendance);
+        final Board board = boardRepository.findById(boardId).orElseThrow(RuntimeException::new);
+        final Vote vote = Vote
+                .builder()
+                .userId(userId)
+                .boardId(boardId)
+                .isAttendance(isAttendance)
+                .date(board.getMatchDate())
+                .build();
 
         voteRepository.save(vote);
 
@@ -27,10 +38,9 @@ public class VoteService {
     }
 
     public List<Integer> result(final Long boardId) {
-        final List<Vote> voteList = voteRepository.findAllByBoardId(boardId)
-                .orElse(null);
+        final List<Vote> voteList = voteRepository.findAllByBoardId(boardId);
 
-        if (voteList == null) {
+        if (voteList.size() == 0) {
             return List.of(0, 0);
         }
 
@@ -70,5 +80,17 @@ public class VoteService {
                 .collect(Collectors.toList());
     }
 
+    //월별 참석 여부
+    //TODO 참석자 몇명인지 추가해야함
+    public List<MonthlyAttendanceResponse> findAttendanceByMonth(final Long userId, final int year, final int month) {
+        final List<Vote> votes = voteRepository.findByUserIdMonthlyAttendance(userId, year, month);
 
+        return votes.stream()
+                .map(v -> MonthlyAttendanceResponse
+                        .builder()
+                        .matchDay(v.getMatchDate())
+                        .attendance(v.isAttendance())
+                        .build())
+                .toList();
+    }
 }

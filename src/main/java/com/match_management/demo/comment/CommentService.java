@@ -2,6 +2,9 @@ package com.match_management.demo.comment;
 
 import java.util.Comparator;
 import java.util.List;
+
+import com.match_management.demo.comment.dto.CommentsResponse;
+import com.match_management.demo.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,20 +13,28 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public Long create(final Long userId, final Long boardId, final String text) {
-        final Comment comment = new Comment(userId, boardId, text);
+        final Comment comment = Comment.builder().userId(userId).boardId(boardId).text(text).build();
 
         commentRepository.save(comment);
         return comment.getId();
     }
 
-    public List<Comment> viewAllComments(final Long boardId) {
-        final List<Comment> commentList = commentRepository.findAllByBoardId(boardId)
-                .orElseThrow(RuntimeException::new);
+    public List<CommentsResponse> viewAllComments(final Long boardId) {
+        final List<Comment> commentList = commentRepository.findAllByBoardId(boardId);
         commentList.sort(Comparator.comparing(Comment::getUpdatedAt));
-        return commentList;
+        return commentList.stream()
+                .map(c -> CommentsResponse
+                        .builder()
+                        .userName(userRepository.findById(c.getUserId()).orElseThrow(RuntimeException::new).getName())
+                        .text(c.getText())
+                        .date(c.getUpdatedAt())
+                        .build()
+                )
+                .toList();
     }
 
     @Transactional
