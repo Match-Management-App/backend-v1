@@ -4,6 +4,7 @@ import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.AuthUserInfo;
 import com.match_management.demo.comment.dto.CommentRequest;
 import com.match_management.demo.comment.dto.CommentsResponse;
+import com.match_management.demo.comment.swagger.CommentApiDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/comment")
-public class CommentController {
+public class CommentController implements CommentApiDoc {
     private final CommentService commentService;
 
     @GetMapping("")
@@ -37,4 +38,6 @@ public class CommentController {
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    //TODO 댓글 수정도 만들자
 }
