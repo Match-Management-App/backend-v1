@@ -4,6 +4,7 @@ import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.AuthUserInfo;
 import com.match_management.demo.match.dto.MonthlyScheduleResponse;
 import com.match_management.demo.match.dto.NextMatchResponse;
+import com.match_management.demo.match.swagger.MatchApiDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/matches")
 @RequiredArgsConstructor
-public class MatchController {
+public class MatchController implements MatchApiDoc {
     private final MatchService matchService;
 
     @GetMapping("/schedule")
