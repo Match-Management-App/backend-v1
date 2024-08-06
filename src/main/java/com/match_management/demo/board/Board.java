@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 //TODO
@@ -22,13 +23,16 @@ public class Board {
     private String title;
     private String writer;
     private LocalDateTime matchDate;
+    private LocalDateTime createAt;
     private LocalDateTime updatedAt;
 
+    @Builder
     public Board(final Long userId, final String writer, final String title, final LocalDateTime matchDate) {
         this.userId = userId;
         this.writer = writer;
         this.title = title;
         this.matchDate = matchDate;
+        this.createAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 

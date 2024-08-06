@@ -1,5 +1,6 @@
 package com.match_management.demo.board;
 
+import com.match_management.demo.board.dto.BoardIdResponse;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
@@ -43,9 +44,9 @@ public class BoardTest {
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //when
-        Long boardId = boardService.create(user.getId(), user.getName(),
+        BoardIdResponse response = boardService.create(user.getId(), user.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
-        Board board = boardRepository.findById(boardId).orElseThrow(RuntimeException::new);
+        Board board = boardRepository.findById(response.getBoardId()).orElseThrow(RuntimeException::new);
 
         //then
         assertThat(board.getUserId()).isEqualTo(USER_ID);
@@ -60,12 +61,12 @@ public class BoardTest {
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //given
-        Long boardId = boardService.create(user.getId(), user.getName(),
+        BoardIdResponse response = boardService.create(user.getId(), user.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
-        boardService.amendTitle(boardId, "앙");
-        boardService.amendMatchDate(boardId,
+        boardService.amendTitle(response.getBoardId(), "앙");
+        boardService.amendMatchDate(response.getBoardId(),
                 LocalDateTime.of(2024, 7, 29, 10, 0));
-        Board board = boardRepository.findById(boardId).orElseThrow(RuntimeException::new);
+        Board board = boardRepository.findById(response.getBoardId()).orElseThrow(RuntimeException::new);
 
         //then
         assertThat(board.getTitle()).isEqualTo("앙");
@@ -79,12 +80,12 @@ public class BoardTest {
         User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
 
         //given
-        Long boardId = boardService.create(user.getId(), user.getName(),
+        BoardIdResponse response = boardService.create(user.getId(), user.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
-        boardService.delete(boardId);
+        boardService.delete(response.getBoardId());
         //then
 
-        assertThatThrownBy(() -> boardRepository.findById(boardId).orElseThrow(RuntimeException::new))
+        assertThatThrownBy(() -> boardRepository.findById(response.getBoardId()).orElseThrow(RuntimeException::new))
                 .isInstanceOf(RuntimeException.class);
     }
 }
