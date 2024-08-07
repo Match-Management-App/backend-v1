@@ -3,6 +3,7 @@ package com.match_management.demo.chemicalPartner;
 import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.AuthUserInfo;
 import com.match_management.demo.chemicalPartner.dto.ChemicalResponse;
+import com.match_management.demo.chemicalPartner.swagger.ChemicalPartnerApiDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/chemical")
-public class ChemicalPartnerController {
+public class ChemicalPartnerController implements ChemicalPartnerApiDoc {
     private final ChemicalPartnerService chemicalPartnerService;
 
     @GetMapping("/assists/best")

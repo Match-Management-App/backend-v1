@@ -4,6 +4,7 @@ import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.AuthUserInfo;
 import com.match_management.demo.stat.dto.RecentlyStatResponse;
 import com.match_management.demo.stat.dto.RegisterStatRequest;
+import com.match_management.demo.stat.swagger.StatApiDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/stat")
-public class StatController {
+public class StatController implements StatApiDoc {
     private final StatService statService;
 
     @GetMapping("/recently-record")

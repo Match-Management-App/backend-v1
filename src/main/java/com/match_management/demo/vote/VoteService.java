@@ -62,7 +62,7 @@ public class VoteService {
         return attendList.stream()
                 .map(v -> userRepository.findById(v.getUserId()).orElseThrow(RuntimeException::new))
                 .map(User::getName)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     //불참 투표한 사람 이름
@@ -77,7 +77,7 @@ public class VoteService {
         return absentList.stream()
                 .map(v -> userRepository.findById(v.getUserId()).orElseThrow(RuntimeException::new))
                 .map(User::getName)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     //월별 참석 여부
