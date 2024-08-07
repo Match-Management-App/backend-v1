@@ -3,6 +3,7 @@ package com.match_management.demo.board;
 import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.AuthUserInfo;
 import com.match_management.demo.board.dto.*;
+import com.match_management.demo.board.swagger.BoardControllerApiDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
-public class BoardController {
+public class BoardController implements BoardControllerApiDoc {
     private final BoardService boardService;
 
     @GetMapping("")
     public Page<BoardResponse> viewAllBoard
-            (@AuthUserInfo AuthUser authUser,
+            (@AuthUserInfo final AuthUser authUser,
              @PageableDefault(page = 1) final Pageable pageable)
     {
         return boardService.viewAllBoard(pageable);
