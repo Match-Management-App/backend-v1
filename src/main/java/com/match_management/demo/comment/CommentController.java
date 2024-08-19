@@ -2,8 +2,10 @@ package com.match_management.demo.comment;
 
 import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.AuthUserInfo;
+import com.match_management.demo.comment.dto.AmendCommentRequest;
 import com.match_management.demo.comment.dto.CommentRequest;
 import com.match_management.demo.comment.dto.CommentsResponse;
+import com.match_management.demo.comment.dto.DeleteCommentRequest;
 import com.match_management.demo.comment.swagger.CommentApiDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,4 +42,21 @@ public class CommentController implements CommentApiDoc {
     }
 
     //TODO 댓글 수정도 만들자
+    @PostMapping("/amend")
+    public ResponseEntity<HttpStatus> amendComment
+            (@AuthUserInfo final AuthUser authUser,
+             @RequestBody final AmendCommentRequest amendCommentRequest)
+    {
+        commentService.amend(amendCommentRequest.getId(), amendCommentRequest.getText());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<HttpStatus> deleteComment
+            (@AuthUserInfo final AuthUser authUser,
+             @RequestBody final DeleteCommentRequest deleteCommentRequest)
+    {
+        commentService.delete(deleteCommentRequest.getId());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 }

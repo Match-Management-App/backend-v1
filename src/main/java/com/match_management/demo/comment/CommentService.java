@@ -29,6 +29,7 @@ public class CommentService {
         return commentList.stream()
                 .map(c -> CommentsResponse
                         .builder()
+                        .id(c.getId())
                         .userName(userRepository.findById(c.getUserId()).orElseThrow(RuntimeException::new).getName())
                         .text(c.getText())
                         .date(c.getUpdatedAt())
@@ -43,5 +44,13 @@ public class CommentService {
                 .orElseThrow(RuntimeException::new);
 
         comment.amend(amendText);
+    }
+
+    @Transactional
+    public void delete(final Long commentId) {
+        final Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(RuntimeException::new);
+
+        commentRepository.delete(comment);
     }
 }
