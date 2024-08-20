@@ -37,7 +37,7 @@ public class User {
 
     public void authenticateCustomCode(final String code) {
         //나중에 application.yml로 뺄예정
-        if (!Objects.equals(code, "최강강몬유FC")) {
+        if (!Objects.equals(code, "MonsterUnited")) {
             throw new RuntimeException();
         }
         authenticated = true;
