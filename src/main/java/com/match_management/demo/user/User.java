@@ -1,5 +1,6 @@
 package com.match_management.demo.user;
 
+import com.match_management.demo.user.exception.UserException.UnMatchedCodeException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +39,7 @@ public class User {
     public void authenticateCustomCode(final String code) {
         //나중에 application.yml로 뺄예정
         if (!Objects.equals(code, "MonsterUnited")) {
-            throw new RuntimeException();
+            throw new UnMatchedCodeException();
         }
         authenticated = true;
     }

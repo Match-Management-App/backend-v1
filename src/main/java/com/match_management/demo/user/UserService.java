@@ -1,6 +1,7 @@
 package com.match_management.demo.user;
 
 import com.match_management.demo.record.RecordService;
+import com.match_management.demo.user.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,21 +14,21 @@ public class UserService {
     private final RecordService recordService;
 
     @Transactional
-    public Long create(final Long oauthId, final String name, final String position) {
+    public User create(final Long oauthId, final String name, final String position) {
         final User user = new User(oauthId, name, position);
 
         userRepository.save(user);
         final Long statId = recordService.initStat(user.getId());
         user.setStatId(statId);
 
-        return user.getId();
+        return user;
     }
 
     public String getUserNameByAssistId(final Long assistId) {
-        return userRepository.findByOauthId(assistId).orElseThrow(RuntimeException::new).getName();
+        return userRepository.findByOauthId(assistId).orElseThrow(UserException.NoUserException::new).getName();
     }
 
     public String getUserNameByGoalId(final Long goalId) {
-        return userRepository.findByOauthId(goalId).orElseThrow(RuntimeException::new).getName();
+        return userRepository.findByOauthId(goalId).orElseThrow(UserException.NoUserException::new).getName();
     }
 }
