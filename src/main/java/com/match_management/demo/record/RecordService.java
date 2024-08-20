@@ -1,8 +1,10 @@
 package com.match_management.demo.record;
 
 import com.match_management.demo.record.dto.TopStatMemberResponse;
+import com.match_management.demo.record.exception.RecordException;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
+import com.match_management.demo.user.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class RecordService {
     @Transactional
     public void accumulateGoalsStat(final Long userId, final int goalPoints) {
         final Record record = recordRepository.findByUserId(userId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(RecordException.NoRecordException::new);
 
         record.accumulateGoalPoints(goalPoints);
     }
@@ -36,7 +38,7 @@ public class RecordService {
     @Transactional
     public void accumulateAssistsStat(final Long userId, final int assistPoints) {
         final Record record = recordRepository.findByUserId(userId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(RecordException.NoRecordException::new);
 
         record.accumulateAssistPoints(assistPoints);
     }
@@ -44,7 +46,7 @@ public class RecordService {
     @Transactional
     public void accumulateAttendanceStat(final Long userId, final int attendancePoints) {
         final Record record = recordRepository.findByUserId(userId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(RecordException.NoRecordException::new);
 
         record.accumulateAttendancePoints(attendancePoints);
     }
@@ -52,7 +54,7 @@ public class RecordService {
     @Transactional
     public void accumulateDefencesStat(final Long userId, final int defencePoints) {
         final Record record = recordRepository.findByUserId(userId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(RecordException.NoRecordException::new);
 
         record.accumulateDefencePoints(defencePoints);
     }
@@ -66,7 +68,7 @@ public class RecordService {
                         .userName(
                                 userRepository
                                         .findById(s.getUserId())
-                                        .orElseThrow(RuntimeException::new)
+                                        .orElseThrow(UserException.NoUserException::new)
                                         .getName()
                         )
                         .stats(s.getGoal())
@@ -84,7 +86,7 @@ public class RecordService {
                         .userName(
                                 userRepository
                                         .findById(s.getUserId())
-                                        .orElseThrow(RuntimeException::new)
+                                        .orElseThrow(UserException.NoUserException::new)
                                         .getName()
                         )
                         .stats(s.getAssist())
@@ -102,7 +104,7 @@ public class RecordService {
                         .userName(
                                 userRepository
                                         .findById(s.getUserId())
-                                        .orElseThrow(RuntimeException::new)
+                                        .orElseThrow(UserException.NoUserException::new)
                                         .getName()
                         )
                         .stats(s.getDefence())
@@ -119,7 +121,7 @@ public class RecordService {
                         .userName(
                                 userRepository
                                         .findById(s.getUserId())
-                                        .orElseThrow(RuntimeException::new)
+                                        .orElseThrow(UserException.NoUserException::new)
                                         .getName()
                         )
                         .stats(s.getAttendance())

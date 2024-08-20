@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,5 +25,5 @@ public interface LoginApiDoc {
 
     )
     @PostMapping("")
-    ResponseEntity<?> signUp(@RequestBody final SignUpRequest signUpRequest);
+    ResponseEntity<?> signUp(final HttpServletResponse response, @RequestBody final SignUpRequest signUpRequest);
 }

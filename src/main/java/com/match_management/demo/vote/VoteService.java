@@ -4,6 +4,7 @@ import com.match_management.demo.board.Board;
 import com.match_management.demo.board.BoardRepository;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
+import com.match_management.demo.user.exception.UserException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class VoteService {
         }
 
         return attendList.stream()
-                .map(v -> userRepository.findById(v.getUserId()).orElseThrow(RuntimeException::new))
+                .map(v -> userRepository.findById(v.getUserId()).orElseThrow(UserException.NoUserException::new))
                 .map(User::getName)
                 .toList();
     }
@@ -75,7 +76,7 @@ public class VoteService {
         }
 
         return absentList.stream()
-                .map(v -> userRepository.findById(v.getUserId()).orElseThrow(RuntimeException::new))
+                .map(v -> userRepository.findById(v.getUserId()).orElseThrow(UserException.NoUserException::new))
                 .map(User::getName)
                 .toList();
     }

@@ -1,5 +1,7 @@
 package com.match_management.demo.comment;
 
+import com.match_management.demo.comment.exception.CommentException;
+import com.match_management.demo.user.exception.UserException;
 import java.util.Comparator;
 import java.util.List;
 
@@ -30,7 +32,10 @@ public class CommentService {
                 .map(c -> CommentsResponse
                         .builder()
                         .id(c.getId())
-                        .userName(userRepository.findById(c.getUserId()).orElseThrow(RuntimeException::new).getName())
+                        .userName(userRepository.findById(c.getUserId())
+                                .orElseThrow(UserException.NoUserException::new)
+                                .getName()
+                        )
                         .text(c.getText())
                         .date(c.getUpdatedAt())
                         .build()
@@ -41,7 +46,7 @@ public class CommentService {
     @Transactional
     public void amend(final Long commentId, final String amendText) {
         final Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(CommentException.NoCommentException::new);
 
         comment.amend(amendText);
     }
@@ -49,7 +54,7 @@ public class CommentService {
     @Transactional
     public void delete(final Long commentId) {
         final Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(CommentException.NoCommentException::new);
 
         commentRepository.delete(comment);
     }

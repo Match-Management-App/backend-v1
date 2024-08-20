@@ -3,6 +3,7 @@ package com.match_management.demo.login;
 import com.match_management.demo.login.dto.SignUpRequest;
 import com.match_management.demo.login.dto.SignUpResponse;
 import com.match_management.demo.login.swagger.LoginApiDoc;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,12 @@ public class LoginController implements LoginApiDoc {
     private final LoginService loginService;
 
     @PostMapping("")
-    public ResponseEntity<SignUpResponse> signUp(@RequestBody final SignUpRequest signUpRequest) {
+    public ResponseEntity<SignUpResponse> signUp(final HttpServletResponse response,
+                                                 @RequestBody final SignUpRequest signUpRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
-                        loginService.signUp(signUpRequest)
+                        loginService.signUp(response, signUpRequest)
                 );
     }
 }

@@ -4,6 +4,7 @@ import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.jwt.exception.JwtException;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
+import com.match_management.demo.user.exception.UserException;
 import io.jsonwebtoken.Claims;
 import com.match_management.demo.user.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -88,7 +89,7 @@ public class JwtService {
 
         final Long oauthId = claims.get("oauthId", Long.class);
 
-        final User user = userRepository.findByOauthId(oauthId).orElseThrow(RuntimeException::new);
+        final User user = userRepository.findByOauthId(oauthId).orElseThrow(UserException.NoUserException::new);
 
         return new UsernamePasswordAuthenticationToken(
                 new AuthUser(user.getOauthId(), user.getName()),
