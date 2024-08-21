@@ -1,7 +1,10 @@
 package com.match_management.demo.auth.jwt;
 
 import com.match_management.demo.auth.AuthUser;
+import com.match_management.demo.auth.jwt.dto.ReissueRequest;
+import com.match_management.demo.auth.jwt.dto.ReissueResponse;
 import com.match_management.demo.auth.jwt.exception.JwtException;
+import com.match_management.demo.cookie.CookieShop;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.exception.UserException;
@@ -15,6 +18,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Collection;
@@ -130,5 +134,33 @@ public class JwtService {
             return Optional.empty();
         }
         return Optional.ofNullable(token[1]);
+    }
+
+    public ReissueResponse reissue(
+            final HttpServletResponse response,
+            final ReissueRequest reissueRequest, final AuthUser authUser,
+            final String accessToken, final String refreshToken
+    )
+    {
+        if (!Objects.equals(reissueRequest.getExpiredToken(), accessToken)) {
+            throw new JwtException.UnMatchedTokenException();
+        }
+
+        //refreshToken의 oauthId와 authentication의 oauthId가 일치하는지 확인
+        final Claims claims = parseClaim(refreshToken);
+        if (!Objects.equals(claims.get("oauthId"), authUser.getOauthId())) {
+            throw new JwtException.InValidUser();
+        }
+
+        // 토큰 발행
+        final String newAccessToken = createAccessToken(authUser.getOauthId(), authUser.getName());
+
+        //다시 새로 쿠키에 추가
+        CookieShop.bake(response, 30 * 60, "accessToken", newAccessToken);
+
+        return ReissueResponse
+                .builder()
+                .accessToken(newAccessToken)
+                .build();
     }
 }

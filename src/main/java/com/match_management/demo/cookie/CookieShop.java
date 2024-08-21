@@ -1,18 +1,21 @@
 package com.match_management.demo.cookie;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 
 public class CookieShop {
     public static void bake(final HttpServletResponse response,
-                            final String refreshToken) {
-        final Cookie cookie = new Cookie("refreshToken", refreshToken);
+                            final int expireTime,
+                            final String type,
+                            final String token) {
+        final ResponseCookie cookie = ResponseCookie.from(type, token)
+                .maxAge(expireTime)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .build();
 
-        cookie.setMaxAge(14 * 24 * 60 * 60);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-
-        response.addCookie(cookie);
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 }

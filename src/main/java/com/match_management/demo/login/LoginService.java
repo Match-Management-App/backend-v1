@@ -42,12 +42,14 @@ public class LoginService {
             user.authenticateCustomCode(signUpRequest.getCode());
         }
 
-        //TODO 3 jwt 생성
+        //TODO 3 accessToken 생성
         final String accessToken = jwtService.createAccessToken(kakaoInfo.getId(), kakaoInfo.getName());
 
-        //TODO 4 refreshToken cookie에 httpOnly로 저장
+        //TODO 4 accessToken 과 refreshToken cookie에 httpOnly로 저장
         final String refreshToken = jwtService.createRefreshToken(kakaoInfo.getId(), kakaoInfo.getName());
-        CookieShop.bake(response, refreshToken);
+
+        CookieShop.bake(response, 30 * 60, "accessToken", accessToken);
+        CookieShop.bake(response, 14 * 24 * 60 * 60, "refreshToken", refreshToken);
 
         return SignUpResponse
                 .builder()

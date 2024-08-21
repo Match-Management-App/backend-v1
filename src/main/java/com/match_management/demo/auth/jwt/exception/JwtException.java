@@ -1,7 +1,6 @@
 package com.match_management.demo.auth.jwt.exception;
 
 import com.match_management.demo.exception.CustomException;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 
 public class JwtException extends CustomException {
     public JwtException(final JwtErrorCode jwtErrorCode) {
@@ -35,6 +34,18 @@ public class JwtException extends CustomException {
     public static class IllegalToken extends JwtException {
         public IllegalToken() {
             super(JwtErrorCode.ILLEGAL_TOKEN);
+        }
+    }
+
+    public static class UnMatchedTokenException extends JwtException {
+        public UnMatchedTokenException() {
+            super(JwtErrorCode.UNMATCHED_TOKEN);
+        }
+    }
+
+    public static class InValidUser extends JwtException {
+        public InValidUser() {
+            super(JwtErrorCode.INVALIDED_USER);
         }
     }
 }
