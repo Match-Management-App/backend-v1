@@ -37,12 +37,13 @@ public class VoteTest {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        USER_ID = userService.create(1L, name, position);
-        User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
+        User user = userService.create(1L, name, position);
+        USER_ID = user.getId();
 
         //when
         BOARD_ID = boardService.create(user.getId(), user.getName(),
-                "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
+                "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0))
+                .getBoardId();
     }
 
     // 한명이 참석으로 투표했을 경우의 test
@@ -74,11 +75,11 @@ public class VoteTest {
     @Test
     public void attendName() {
         //given
-        Long user1 = userService.create(1L, "su", "forwoard");
-        Long user2 = userService.create(2L, "suhwpark", "forwoard");
-        Long user3 = userService.create(3L, "say", "forwoard");
-        Long user4 = userService.create(4L, "niu", "forwoard");
-        Long user5 = userService.create(5L, "yong", "forwoard");
+        Long user1 = userService.create(1L, "su", "forwoard").getId();
+        Long user2 = userService.create(2L, "suhwpark", "forwoard").getId();
+        Long user3 = userService.create(3L, "say", "forwoard").getId();
+        Long user4 = userService.create(4L, "niu", "forwoard").getId();
+        Long user5 = userService.create(5L, "yong", "forwoard").getId();
 
         voteService.create(USER_ID, BOARD_ID, true);
         voteService.create(user1, BOARD_ID, true);
@@ -103,11 +104,11 @@ public class VoteTest {
     @Test
     public void absentName() {
         //given
-        Long user1 = userService.create(1L, "su", "forwoard");
-        Long user2 = userService.create(2L, "suhwpark", "forwoard");
-        Long user3 = userService.create(3L, "say", "forwoard");
-        Long user4 = userService.create(4L, "niu", "forwoard");
-        Long user5 = userService.create(5L, "yong", "forwoard");
+        Long user1 = userService.create(1L, "su", "forwoard").getId();
+        Long user2 = userService.create(2L, "suhwpark", "forwoard").getId();
+        Long user3 = userService.create(3L, "say", "forwoard").getId();
+        Long user4 = userService.create(4L, "niu", "forwoard").getId();
+        Long user5 = userService.create(5L, "yong", "forwoard").getId();
 
         voteService.create(USER_ID, BOARD_ID, true);
         voteService.create(user1, BOARD_ID, true);

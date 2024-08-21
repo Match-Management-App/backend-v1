@@ -34,13 +34,11 @@ public class UserEntityTest {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        //when
-        Long userId = userService.create(1L, name, position);
 
         //then
-        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        User user = userService.create(1L, name, position);
 
-        assertThat(user.getId()).isEqualTo(userId);
+        assertThat(user.getId()).isEqualTo(user.getId());
         assertThat(user.getName()).isEqualTo(name);
         assertThat(user.getPosition()).isEqualTo(position);
     }
@@ -53,13 +51,12 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        Long userId = userService.create(1L, name, position);
+        User user = userService.create(1L, name, position);
 
         //then
-        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
         Record record = recordRepository.findByUserId(user.getId()).orElseThrow(RuntimeException::new);
 
-        assertThat(record.getUserId()).isEqualTo(userId);
+        assertThat(record.getUserId()).isEqualTo(user.getId());
         assertThat(record.getGoal()).isEqualTo(0);
         assertThat(record.getAssist()).isEqualTo(0);
         assertThat(record.getAttendance()).isEqualTo(0);
@@ -74,13 +71,13 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        Long userId = userService.create(1L, name, position);
-        Record record = recordRepository.findByUserId(userId).orElseThrow(RuntimeException::new);
+        User user = userService.create(1L, name, position);
+        Record record = recordRepository.findByUserId(user.getId()).orElseThrow(RuntimeException::new);
 
-        recordService.accumulateGoalsStat(userId, 1);
-        recordService.accumulateAssistsStat(userId, 1);
-        recordService.accumulateAttendanceStat(userId, 1);
-        recordService.accumulateDefencesStat(userId, 1);
+        recordService.accumulateGoalsStat(user.getId(), 1);
+        recordService.accumulateAssistsStat(user.getId(), 1);
+        recordService.accumulateAttendanceStat(user.getId(), 1);
+        recordService.accumulateDefencesStat(user.getId(), 1);
 
         //then
         assertThat(record.getGoal()).isEqualTo(1);
@@ -99,8 +96,7 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        Long userId = userService.create(1L, name, position);
-        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        User user = userService.create(1L, name, position);;
 
         //then
         assertThatThrownBy(() -> user.authenticateCustomCode(code))
@@ -117,8 +113,7 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        Long userId = userService.create(1L, name, position);
-        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        User user = userService.create(1L, name, position);
         user.authenticateCustomCode(code);
         //then
         assertThat(user.isAuthenticated()).isTrue();

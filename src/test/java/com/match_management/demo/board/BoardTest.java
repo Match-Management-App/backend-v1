@@ -26,30 +26,27 @@ public class BoardTest {
     UserService userService;
     @Autowired
     UserRepository userRepository;
-    private static Long USER_ID;
+    private static User user;
 
     @BeforeEach
     public void initUser() {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        USER_ID = userService.create(1L, name, position);
+        user = userService.create(1L, name, position);
     }
 
     //글쓴유저의 id를 Board가 가지고 있는지 확인
     //match date가 잘 설정 되어있는지
     @Test
     public void create() {
-        //given
-        User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
-
         //when
         BoardIdResponse response = boardService.create(user.getId(), user.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
         Board board = boardRepository.findById(response.getBoardId()).orElseThrow(RuntimeException::new);
 
         //then
-        assertThat(board.getUserId()).isEqualTo(USER_ID);
+        assertThat(board.getUserId()).isEqualTo(BoardTest.user);
         assertThat(board.getMatchDate())
                 .isEqualTo(LocalDateTime.of(2024, 7, 22, 9, 0));
     }
@@ -57,9 +54,6 @@ public class BoardTest {
     //글을 수정할 때 수정이 잘 되는지
     @Test
     public void amendBoard() {
-        //given
-        User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
-
         //given
         BoardIdResponse response = boardService.create(user.getId(), user.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
@@ -76,9 +70,6 @@ public class BoardTest {
     //글을 삭제 할 떄
     @Test
     public void delete() {
-        //given
-        User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
-
         //given
         BoardIdResponse response = boardService.create(user.getId(), user.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));

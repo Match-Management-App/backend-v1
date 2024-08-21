@@ -38,12 +38,13 @@ public class CommentTest {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        USER_ID = userService.create(1L, name, position);
-        User user = userRepository.findById(USER_ID).orElseThrow(RuntimeException::new);
+        User user = userService.create(1L, name, position);
+        USER_ID = user.getId();
 
         //when
         BOARD_ID = boardService.create(user.getId(), user.getName(),
-                "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
+                "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0))
+                .getBoardId();
     }
 
     //게시글에 댓글 달기
