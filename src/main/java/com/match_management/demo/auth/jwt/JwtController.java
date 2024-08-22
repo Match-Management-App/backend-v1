@@ -25,13 +25,12 @@ public class JwtController implements JwtApiDoc {
     public ResponseEntity<ReissueResponse> reissue(
             final HttpServletResponse response,
             @RequestBody final ReissueRequest reissueRequest,
-            @AuthUserInfo final AuthUser authUser,
             @CookieValue(value = "accessToken", defaultValue = "NONE") final String accessToken,
             @CookieValue(value = "refreshToken", defaultValue = "NONE") final String refreshToken
     )
     {
         return ResponseEntity.ok(
-                jwtService.reissue(response, reissueRequest, authUser, accessToken, refreshToken)
+                jwtService.reissue(response, reissueRequest, accessToken, refreshToken)
         );
     }
 }
