@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Tag(name = "user", description = "회원 정보에 관한 api")
@@ -25,4 +26,14 @@ public interface UserApiDoc {
     )
     @GetMapping("/me")
     ResponseEntity<UserNameResponse> getUserName(@AuthUserInfo final AuthUser authUser);
+
+    @Operation(
+            summary = "delete user api",
+            description = "유저를 삭제하는 api",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "삭제 성공")
+            }
+    )
+    @DeleteMapping("/")
+    ResponseEntity<String> delete(@AuthUserInfo final AuthUser authUser);
 }

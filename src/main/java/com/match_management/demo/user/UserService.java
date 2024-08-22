@@ -1,5 +1,6 @@
 package com.match_management.demo.user;
 
+import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.record.RecordService;
 import com.match_management.demo.user.exception.UserException;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,13 @@ public class UserService {
 
     public String getUserNameByGoalId(final Long goalId) {
         return userRepository.findByOauthId(goalId).orElseThrow(UserException.NoUserException::new).getName();
+    }
+
+    @Transactional
+    public void delete(final AuthUser authUser) {
+        userRepository.delete(
+                userRepository.findByOauthId(authUser.getOauthId())
+                        .orElseThrow(UserException.NoUserException::new)
+        );
     }
 }

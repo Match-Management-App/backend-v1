@@ -7,6 +7,7 @@ import com.match_management.demo.user.swagger.UserApiDoc;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequestMapping("/api/v1/users")
 public class UserController implements UserApiDoc {
+    private final UserService userService;
 
     @GetMapping("/me")
     public ResponseEntity<UserNameResponse> getUserName(@AuthUserInfo final AuthUser authUser) {
@@ -27,5 +29,10 @@ public class UserController implements UserApiDoc {
         );
     }
 
+    @DeleteMapping("/")
+    public ResponseEntity<String> delete(@AuthUserInfo final AuthUser authUser) {
+        userService.delete(authUser);
 
+        return ResponseEntity.ok("삭제 완료");
+    }
 }
