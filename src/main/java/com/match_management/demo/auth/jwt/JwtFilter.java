@@ -27,14 +27,11 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull final FilterChain filterChain
     ) throws ServletException, IOException
     {
-        final String token = jwtService.extractToken(request).orElse(null);
-        if (token != null) {
-            SecurityContextHolder
-                    .getContext()
-                    .setAuthentication(
-                            jwtService.getAuthentication(request, token)
-                    );
-        }
+        jwtService.extractToken(request).ifPresent(token -> SecurityContextHolder
+                .getContext()
+                .setAuthentication(
+                        jwtService.getAuthentication(request, token)
+                ));
         filterChain.doFilter(request, response);
     }
 }
