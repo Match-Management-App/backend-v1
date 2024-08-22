@@ -9,6 +9,7 @@ import com.match_management.demo.openApi.dto.KakaoInfo;
 import com.match_management.demo.user.User;
 import com.match_management.demo.user.UserRepository;
 import com.match_management.demo.user.UserService;
+import com.match_management.demo.user.exception.UserException;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class LoginService {
     @Transactional
     public SignUpResponse signUp(final HttpServletResponse response, final SignUpRequest signUpRequest) {
         if (!Objects.equals(signUpRequest.getCode(), "MonsterUnited")) {
-            throw new RuntimeException();
+            throw new UserException.UnMatchedCodeException();
         }
         //TODO 1 카카오 api에 정보 요청하기
         final KakaoInfo kakaoInfo = kakaoService.getUserInfo(signUpRequest.getAccessToken());
@@ -35,7 +36,7 @@ public class LoginService {
         //TODO 2 user 생성
         final User user = userRepository.findByOauthId(kakaoInfo.getId())
                 .orElseGet(() -> userService.create(
-                        kakaoInfo.getId(), kakaoInfo.getName(), signUpRequest.getPosition())
+                        kakaoInfo.getId(), kakaoInfo.getProperties().getNickname(), signUpRequest.getPosition())
                 );
 
         if (!user.isAuthenticated()) {
@@ -43,10 +44,10 @@ public class LoginService {
         }
 
         //TODO 3 accessToken 생성
-        final String accessToken = jwtService.createAccessToken(kakaoInfo.getId(), kakaoInfo.getName());
+        final String accessToken = jwtService.createAccessToken(kakaoInfo.getId(), kakaoInfo.getProperties().getNickname());
 
         //TODO 4 accessToken 과 refreshToken cookie에 httpOnly로 저장
-        final String refreshToken = jwtService.createRefreshToken(kakaoInfo.getId(), kakaoInfo.getName());
+        final String refreshToken = jwtService.createRefreshToken(kakaoInfo.getId(), kakaoInfo.getProperties().getNickname());
 
         CookieShop.bake(response, 30 * 60, "accessToken", accessToken);
         CookieShop.bake(response, 14 * 24 * 60 * 60, "refreshToken", refreshToken);
