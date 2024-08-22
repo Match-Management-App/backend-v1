@@ -6,7 +6,6 @@ import com.match_management.demo.openApi.exception.json.JsonException;
 import com.match_management.demo.record.exception.RecordException;
 import com.match_management.demo.user.exception.UserException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.convert.Jsr310Converters.StringToPeriodConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
