@@ -32,7 +32,6 @@ public interface JwtApiDoc {
     ResponseEntity<ReissueResponse> reissue(
             final HttpServletResponse response,
             @RequestBody final ReissueRequest reissueRequest,
-            @AuthUserInfo final AuthUser authUser,
             @CookieValue(value = "accessToken", defaultValue = "NONE") final String refreshToken,
             @CookieValue(value = "refreshToken", defaultValue = "NONE") final String accessToken
     );
