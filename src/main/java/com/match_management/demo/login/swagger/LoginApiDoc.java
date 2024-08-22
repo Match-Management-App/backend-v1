@@ -25,5 +25,7 @@ public interface LoginApiDoc {
 
     )
     @PostMapping("")
-    ResponseEntity<?> signUp(final HttpServletResponse response, @RequestBody final SignUpRequest signUpRequest);
+    ResponseEntity<SignUpResponse> signUp(
+            final HttpServletResponse response, @RequestBody final SignUpRequest signUpRequest
+    );
 }
