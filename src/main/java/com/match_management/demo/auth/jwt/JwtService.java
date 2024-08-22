@@ -97,6 +97,7 @@ public class JwtService {
 
         return new UsernamePasswordAuthenticationToken(
                 new AuthUser(user.getOauthId(), user.getName()),
+                "",
                 authorities
         );
     }
@@ -138,8 +139,9 @@ public class JwtService {
 
     public ReissueResponse reissue(
             final HttpServletResponse response,
-            final ReissueRequest reissueRequest, final AuthUser authUser,
-            final String accessToken, final String refreshToken
+            final ReissueRequest reissueRequest,
+            final String accessToken,
+            final String refreshToken
     )
     {
         if (!Objects.equals(reissueRequest.getExpiredToken(), accessToken)) {
@@ -148,12 +150,11 @@ public class JwtService {
 
         //refreshToken의 oauthId와 authentication의 oauthId가 일치하는지 확인
         final Claims claims = parseClaim(refreshToken);
-        if (!Objects.equals(claims.get("oauthId"), authUser.getOauthId())) {
-            throw new JwtException.InValidUser();
-        }
+        final User user = userRepository.findByOauthId((Long) claims.get("oauthId"))
+                .orElseThrow(JwtException.InValidUser::new);
 
         // 토큰 발행
-        final String newAccessToken = createAccessToken(authUser.getOauthId(), authUser.getName());
+        final String newAccessToken = createAccessToken(user.getOauthId(), user.getName());
 
         //다시 새로 쿠키에 추가
         CookieShop.bake(response, 30 * 60, "accessToken", newAccessToken);
