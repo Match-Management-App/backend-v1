@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserNameResponse {
+public class MemberNameResponse {
     private String userName;
 
     @Builder
-    public UserNameResponse(final String userName) {
+    public MemberNameResponse(final String userName) {
         this.userName = userName;
     }
 }

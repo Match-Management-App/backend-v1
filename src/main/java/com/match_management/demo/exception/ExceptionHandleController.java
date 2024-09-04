@@ -4,7 +4,8 @@ import com.match_management.demo.comment.exception.CommentException;
 import com.match_management.demo.openApi.exception.KakaoApi.KakaoApiException;
 import com.match_management.demo.openApi.exception.json.JsonException;
 import com.match_management.demo.record.exception.RecordException;
-import com.match_management.demo.user.exception.UserException;
+import com.match_management.demo.user.exception.MemberException;
+import com.match_management.demo.user.exception.MemberException.NoMemberException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionHandleController {
     @ExceptionHandler(
             {
-                    UserException.NoUserException.class, CommentException.NoCommentException.class,
+                    NoMemberException.class, CommentException.NoCommentException.class,
                     RecordException.NoRecordException.class
             }
     )
@@ -29,7 +30,7 @@ public class ExceptionHandleController {
     @ExceptionHandler(
             {
                     JsonException.DeserializeException.class, KakaoApiException.class,
-                    UserException.UnMatchedCodeException.class
+                    MemberException.UnMatchedCodeException.class
             }
     )
     public ResponseEntity<String> handleBadRequestException(final CustomException e) {

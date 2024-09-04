@@ -2,7 +2,6 @@ package com.match_management.demo.vote.swagger;
 
 import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.AuthUserInfo;
-import com.match_management.demo.user.dto.UserNameResponse;
 import com.match_management.demo.vote.dto.MonthlyAttendanceResponse;
 import com.match_management.demo.vote.dto.VoteMatchRequest;
 import io.swagger.v3.oas.annotations.Operation;

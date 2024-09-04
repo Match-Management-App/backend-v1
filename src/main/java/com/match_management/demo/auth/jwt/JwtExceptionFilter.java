@@ -4,6 +4,7 @@ import static com.fasterxml.jackson.core.JsonEncoding.UTF8;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.match_management.demo.auth.jwt.exception.JwtException;
+import com.match_management.demo.user.exception.MemberException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     {
         try {
             filterChain.doFilter(request, response);
-        } catch (final JwtException e) {
+        } catch (final JwtException | MemberException e) {
             this.sendRequest(response, e.toString());
         }
     }

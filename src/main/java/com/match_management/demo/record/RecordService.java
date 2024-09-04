@@ -2,9 +2,8 @@ package com.match_management.demo.record;
 
 import com.match_management.demo.record.dto.TopStatMemberResponse;
 import com.match_management.demo.record.exception.RecordException;
-import com.match_management.demo.user.User;
-import com.match_management.demo.user.UserRepository;
-import com.match_management.demo.user.exception.UserException;
+import com.match_management.demo.user.MemberRepository;
+import com.match_management.demo.user.exception.MemberException.NoMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -18,11 +17,17 @@ import java.util.List;
 public class RecordService {
 
     private final RecordRepository recordRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public Long initStat(final Long userId) {
-        final Record record = Record.builder().userId(userId).build();
+        final Record record = Record.builder()
+                .goal(0)
+                .assist(0)
+                .defence(0)
+                .attendance(0)
+                .userId(userId)
+                .build();
 
         recordRepository.save(record);
         return record.getId();
@@ -66,9 +71,9 @@ public class RecordService {
                 .map(s -> TopStatMemberResponse
                         .builder()
                         .userName(
-                                userRepository
+                                memberRepository
                                         .findById(s.getUserId())
-                                        .orElseThrow(UserException.NoUserException::new)
+                                        .orElseThrow(NoMemberException::new)
                                         .getName()
                         )
                         .stats(s.getGoal())
@@ -84,9 +89,9 @@ public class RecordService {
                 .map(s -> TopStatMemberResponse
                         .builder()
                         .userName(
-                                userRepository
+                                memberRepository
                                         .findById(s.getUserId())
-                                        .orElseThrow(UserException.NoUserException::new)
+                                        .orElseThrow(NoMemberException::new)
                                         .getName()
                         )
                         .stats(s.getAssist())
@@ -102,9 +107,9 @@ public class RecordService {
                 .map(s -> TopStatMemberResponse
                         .builder()
                         .userName(
-                                userRepository
+                                memberRepository
                                         .findById(s.getUserId())
-                                        .orElseThrow(UserException.NoUserException::new)
+                                        .orElseThrow(NoMemberException::new)
                                         .getName()
                         )
                         .stats(s.getDefence())
@@ -119,9 +124,9 @@ public class RecordService {
                 .map(s -> TopStatMemberResponse
                         .builder()
                         .userName(
-                                userRepository
+                                memberRepository
                                         .findById(s.getUserId())
-                                        .orElseThrow(UserException.NoUserException::new)
+                                        .orElseThrow(NoMemberException::new)
                                         .getName()
                         )
                         .stats(s.getAttendance())

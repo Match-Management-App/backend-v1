@@ -3,9 +3,6 @@ package com.match_management.demo.user;
 import com.match_management.demo.record.Record;
 import com.match_management.demo.record.RecordRepository;
 import com.match_management.demo.record.RecordService;
-import com.match_management.demo.stat.Stat;
-import com.match_management.demo.stat.StatRepository;
-import com.match_management.demo.stat.StatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,11 +14,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 @SpringBootTest
 @Transactional
 @Rollback
-public class UserEntityTest {
+public class MemberEntityTest {
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
     @Autowired
     private RecordService recordService;
     @Autowired
@@ -36,11 +33,11 @@ public class UserEntityTest {
 
 
         //then
-        User user = userService.create(1L, name, position);
+        Member member = memberService.create(1L, name, position);
 
-        assertThat(user.getId()).isEqualTo(user.getId());
-        assertThat(user.getName()).isEqualTo(name);
-        assertThat(user.getPosition()).isEqualTo(position);
+        assertThat(member.getId()).isEqualTo(member.getId());
+        assertThat(member.getName()).isEqualTo(name);
+        assertThat(member.getPosition()).isEqualTo(position);
     }
 
     // 유저 생성 했을 때, 초기 stat이 잘 init 되는지
@@ -51,12 +48,12 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        User user = userService.create(1L, name, position);
+        Member member = memberService.create(1L, name, position);
 
         //then
-        Record record = recordRepository.findByUserId(user.getId()).orElseThrow(RuntimeException::new);
+        Record record = recordRepository.findByUserId(member.getId()).orElseThrow(RuntimeException::new);
 
-        assertThat(record.getUserId()).isEqualTo(user.getId());
+        assertThat(record.getUserId()).isEqualTo(member.getId());
         assertThat(record.getGoal()).isEqualTo(0);
         assertThat(record.getAssist()).isEqualTo(0);
         assertThat(record.getAttendance()).isEqualTo(0);
@@ -71,13 +68,13 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        User user = userService.create(1L, name, position);
-        Record record = recordRepository.findByUserId(user.getId()).orElseThrow(RuntimeException::new);
+        Member member = memberService.create(1L, name, position);
+        Record record = recordRepository.findByUserId(member.getId()).orElseThrow(RuntimeException::new);
 
-        recordService.accumulateGoalsStat(user.getId(), 1);
-        recordService.accumulateAssistsStat(user.getId(), 1);
-        recordService.accumulateAttendanceStat(user.getId(), 1);
-        recordService.accumulateDefencesStat(user.getId(), 1);
+        recordService.accumulateGoalsStat(member.getId(), 1);
+        recordService.accumulateAssistsStat(member.getId(), 1);
+        recordService.accumulateAttendanceStat(member.getId(), 1);
+        recordService.accumulateDefencesStat(member.getId(), 1);
 
         //then
         assertThat(record.getGoal()).isEqualTo(1);
@@ -96,10 +93,10 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        User user = userService.create(1L, name, position);;
+        Member member = memberService.create(1L, name, position);;
 
         //then
-        assertThatThrownBy(() -> user.authenticateCustomCode(code))
+        assertThatThrownBy(() -> member.authenticateCustomCode(code))
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -113,9 +110,9 @@ public class UserEntityTest {
         String position = "middleFielder";
 
         //when
-        User user = userService.create(1L, name, position);
-        user.authenticateCustomCode(code);
+        Member member = memberService.create(1L, name, position);
+        member.authenticateCustomCode(code);
         //then
-        assertThat(user.isAuthenticated()).isTrue();
+        assertThat(member.isAuthenticated()).isTrue();
     }
 }

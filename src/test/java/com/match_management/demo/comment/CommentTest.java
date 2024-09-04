@@ -2,9 +2,9 @@ package com.match_management.demo.comment;
 
 import com.match_management.demo.board.BoardService;
 import com.match_management.demo.comment.dto.CommentsResponse;
-import com.match_management.demo.user.User;
-import com.match_management.demo.user.UserRepository;
-import com.match_management.demo.user.UserService;
+import com.match_management.demo.user.Member;
+import com.match_management.demo.user.MemberRepository;
+import com.match_management.demo.user.MemberService;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,9 +28,9 @@ public class CommentTest {
     @Autowired
     CommentRepository commentRepository;
     @Autowired
-    UserService userService;
+    MemberService memberService;
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
     private static Long USER_ID;
     private static Long BOARD_ID;
     @BeforeEach
@@ -38,11 +38,11 @@ public class CommentTest {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        User user = userService.create(1L, name, position);
-        USER_ID = user.getId();
+        Member member = memberService.create(1L, name, position);
+        USER_ID = member.getId();
 
         //when
-        BOARD_ID = boardService.create(user.getId(), user.getName(),
+        BOARD_ID = boardService.create(member.getId(), member.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0))
                 .getBoardId();
     }

@@ -4,7 +4,7 @@ import com.match_management.demo.chemicalPartner.dto.ChemicalResponse;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.match_management.demo.user.UserService;
+import com.match_management.demo.user.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ChemicalPartnerService {
     private final ChemicalPartnerRepository chemicalPartnerRepository;
-    private final UserService userService;
+    private final MemberService memberService;
 
     @Transactional
     public Long create(final Long goalMemberId, final Long assistMemberId,
@@ -36,9 +36,9 @@ public class ChemicalPartnerService {
 
         return ChemicalResponse
                 .builder()
-                .first(userService.getUserNameByAssistId(chemicalPartners.get(0).getAssistMemberId()))
-                .second(userService.getUserNameByAssistId(chemicalPartners.get(1).getAssistMemberId()))
-                .third(userService.getUserNameByAssistId(chemicalPartners.get(2).getAssistMemberId()))
+                .first(memberService.getMemberNameByAssistId(chemicalPartners.get(0).getAssistMemberId()))
+                .second(memberService.getMemberNameByAssistId(chemicalPartners.get(1).getAssistMemberId()))
+                .third(memberService.getMemberNameByAssistId(chemicalPartners.get(2).getAssistMemberId()))
                 .build();
     }
 
@@ -48,9 +48,9 @@ public class ChemicalPartnerService {
 
         return ChemicalResponse
                 .builder()
-                .first(userService.getUserNameByGoalId(chemicalPartners.get(0).getGoalMemberId()))
-                .second(userService.getUserNameByGoalId(chemicalPartners.get(1).getGoalMemberId()))
-                .third(userService.getUserNameByGoalId(chemicalPartners.get(2).getGoalMemberId()))
+                .first(memberService.getMemberNameByGoalId(chemicalPartners.get(0).getGoalMemberId()))
+                .second(memberService.getMemberNameByGoalId(chemicalPartners.get(1).getGoalMemberId()))
+                .third(memberService.getMemberNameByGoalId(chemicalPartners.get(2).getGoalMemberId()))
                 .build();
     }
 
@@ -60,9 +60,9 @@ public class ChemicalPartnerService {
 
         return ChemicalResponse
                 .builder()
-                .first(userService.getUserNameByAssistId(chemicalPartners.get(0).getAssistMemberId()))
-                .second(userService.getUserNameByAssistId(chemicalPartners.get(1).getAssistMemberId()))
-                .third(userService.getUserNameByAssistId(chemicalPartners.get(2).getAssistMemberId()))
+                .first(memberService.getMemberNameByAssistId(chemicalPartners.get(0).getAssistMemberId()))
+                .second(memberService.getMemberNameByAssistId(chemicalPartners.get(1).getAssistMemberId()))
+                .third(memberService.getMemberNameByAssistId(chemicalPartners.get(2).getAssistMemberId()))
                 .build();
     }
 
@@ -72,9 +72,9 @@ public class ChemicalPartnerService {
 
         return ChemicalResponse
                 .builder()
-                .first(userService.getUserNameByGoalId(chemicalPartners.get(0).getGoalMemberId()))
-                .second(userService.getUserNameByGoalId(chemicalPartners.get(1).getGoalMemberId()))
-                .third(userService.getUserNameByGoalId(chemicalPartners.get(2).getGoalMemberId()))
+                .first(memberService.getMemberNameByGoalId(chemicalPartners.get(0).getGoalMemberId()))
+                .second(memberService.getMemberNameByGoalId(chemicalPartners.get(1).getGoalMemberId()))
+                .third(memberService.getMemberNameByGoalId(chemicalPartners.get(2).getGoalMemberId()))
                 .build();
     }
 }

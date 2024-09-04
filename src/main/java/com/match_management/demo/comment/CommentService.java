@@ -1,12 +1,12 @@
 package com.match_management.demo.comment;
 
 import com.match_management.demo.comment.exception.CommentException;
-import com.match_management.demo.user.exception.UserException;
+import com.match_management.demo.user.exception.MemberException.NoMemberException;
 import java.util.Comparator;
 import java.util.List;
 
 import com.match_management.demo.comment.dto.CommentsResponse;
-import com.match_management.demo.user.UserRepository;
+import com.match_management.demo.user.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public Long create(final Long userId, final Long boardId, final String text) {
@@ -32,8 +32,8 @@ public class CommentService {
                 .map(c -> CommentsResponse
                         .builder()
                         .id(c.getId())
-                        .userName(userRepository.findById(c.getUserId())
-                                .orElseThrow(UserException.NoUserException::new)
+                        .userName(memberRepository.findById(c.getUserId())
+                                .orElseThrow(NoMemberException::new)
                                 .getName()
                         )
                         .text(c.getText())

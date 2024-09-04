@@ -1,9 +1,9 @@
 package com.match_management.demo.vote;
 
 import com.match_management.demo.board.BoardService;
-import com.match_management.demo.user.User;
-import com.match_management.demo.user.UserRepository;
-import com.match_management.demo.user.UserService;
+import com.match_management.demo.user.Member;
+import com.match_management.demo.user.MemberRepository;
+import com.match_management.demo.user.MemberService;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,9 +19,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @Rollback
 public class VoteTest {
     @Autowired
-    UserService userService;
+    MemberService memberService;
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
     @Autowired
     BoardService boardService;
     @Autowired
@@ -37,11 +37,11 @@ public class VoteTest {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        User user = userService.create(1L, name, position);
-        USER_ID = user.getId();
+        Member member = memberService.create(1L, name, position);
+        USER_ID = member.getId();
 
         //when
-        BOARD_ID = boardService.create(user.getId(), user.getName(),
+        BOARD_ID = boardService.create(member.getId(), member.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0))
                 .getBoardId();
     }
@@ -75,11 +75,11 @@ public class VoteTest {
     @Test
     public void attendName() {
         //given
-        Long user1 = userService.create(1L, "su", "forwoard").getId();
-        Long user2 = userService.create(2L, "suhwpark", "forwoard").getId();
-        Long user3 = userService.create(3L, "say", "forwoard").getId();
-        Long user4 = userService.create(4L, "niu", "forwoard").getId();
-        Long user5 = userService.create(5L, "yong", "forwoard").getId();
+        Long user1 = memberService.create(1L, "su", "forwoard").getId();
+        Long user2 = memberService.create(2L, "suhwpark", "forwoard").getId();
+        Long user3 = memberService.create(3L, "say", "forwoard").getId();
+        Long user4 = memberService.create(4L, "niu", "forwoard").getId();
+        Long user5 = memberService.create(5L, "yong", "forwoard").getId();
 
         voteService.create(USER_ID, BOARD_ID, true);
         voteService.create(user1, BOARD_ID, true);
@@ -104,11 +104,11 @@ public class VoteTest {
     @Test
     public void absentName() {
         //given
-        Long user1 = userService.create(1L, "su", "forwoard").getId();
-        Long user2 = userService.create(2L, "suhwpark", "forwoard").getId();
-        Long user3 = userService.create(3L, "say", "forwoard").getId();
-        Long user4 = userService.create(4L, "niu", "forwoard").getId();
-        Long user5 = userService.create(5L, "yong", "forwoard").getId();
+        Long user1 = memberService.create(1L, "su", "forwoard").getId();
+        Long user2 = memberService.create(2L, "suhwpark", "forwoard").getId();
+        Long user3 = memberService.create(3L, "say", "forwoard").getId();
+        Long user4 = memberService.create(4L, "niu", "forwoard").getId();
+        Long user5 = memberService.create(5L, "yong", "forwoard").getId();
 
         voteService.create(USER_ID, BOARD_ID, true);
         voteService.create(user1, BOARD_ID, true);

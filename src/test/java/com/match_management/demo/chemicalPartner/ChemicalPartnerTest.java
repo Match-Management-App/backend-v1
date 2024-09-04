@@ -1,7 +1,7 @@
 package com.match_management.demo.chemicalPartner;
 
 import com.match_management.demo.chemicalPartner.dto.ChemicalResponse;
-import com.match_management.demo.user.UserService;
+import com.match_management.demo.user.MemberService;
 import java.time.LocalDate;
 import java.time.Month;
 
@@ -20,7 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 public class ChemicalPartnerTest {
 
     @Autowired
-    UserService userService;
+    MemberService memberService;
 
     @Autowired
     ChemicalPartnerService chemicalPartnerService;
@@ -34,12 +34,12 @@ public class ChemicalPartnerTest {
 
     @BeforeEach
     public void setUp() {
-        user1 = userService.create(1L, "수환", "middleFielder");
-        user2 = userService.create(2L, "용수", "forward");
-        user3 = userService.create(3L, "상화", "middleFielder");
-        user4 = userService.create(4L, "용범", "forward");
-        user5 = userService.create(5L, "재국", "defender");
-        user6 = userService.create(6L, "우규", "middleFielder");
+        user1 = memberService.create(1L, "수환", "middleFielder");
+        user2 = memberService.create(2L, "용수", "forward");
+        user3 = memberService.create(3L, "상화", "middleFielder");
+        user4 = memberService.create(4L, "용범", "forward");
+        user5 = memberService.create(5L, "재국", "defender");
+        user6 = memberService.create(6L, "우규", "middleFielder");
     }
 
     // 골 넣은 사람과 어시스트한 사람과 골 갯수를 통해, chemical table 생성

@@ -1,9 +1,9 @@
 package com.match_management.demo.board;
 
 import com.match_management.demo.board.dto.BoardIdResponse;
-import com.match_management.demo.user.User;
-import com.match_management.demo.user.UserRepository;
-import com.match_management.demo.user.UserService;
+import com.match_management.demo.user.Member;
+import com.match_management.demo.user.MemberRepository;
+import com.match_management.demo.user.MemberService;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,17 +23,17 @@ public class BoardTest {
     @Autowired
     BoardRepository boardRepository;
     @Autowired
-    UserService userService;
+    MemberService memberService;
     @Autowired
-    UserRepository userRepository;
-    private static User user;
+    MemberRepository memberRepository;
+    private static Member member;
 
     @BeforeEach
     public void initUser() {
         String name = "suhwpark";
         String position = "middleFielder";
 
-        user = userService.create(1L, name, position);
+        member = memberService.create(1L, name, position);
     }
 
     //글쓴유저의 id를 Board가 가지고 있는지 확인
@@ -41,12 +41,12 @@ public class BoardTest {
     @Test
     public void create() {
         //when
-        BoardIdResponse response = boardService.create(user.getId(), user.getName(),
+        BoardIdResponse response = boardService.create(member.getId(), member.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
         Board board = boardRepository.findById(response.getBoardId()).orElseThrow(RuntimeException::new);
 
         //then
-        assertThat(board.getUserId()).isEqualTo(BoardTest.user);
+        assertThat(board.getUserId()).isEqualTo(BoardTest.member);
         assertThat(board.getMatchDate())
                 .isEqualTo(LocalDateTime.of(2024, 7, 22, 9, 0));
     }
@@ -55,7 +55,7 @@ public class BoardTest {
     @Test
     public void amendBoard() {
         //given
-        BoardIdResponse response = boardService.create(user.getId(), user.getName(),
+        BoardIdResponse response = boardService.create(member.getId(), member.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
         boardService.amendTitle(response.getBoardId(), "앙");
         boardService.amendMatchDate(response.getBoardId(),
@@ -71,7 +71,7 @@ public class BoardTest {
     @Test
     public void delete() {
         //given
-        BoardIdResponse response = boardService.create(user.getId(), user.getName(),
+        BoardIdResponse response = boardService.create(member.getId(), member.getName(),
                 "내일 경기 투표", LocalDateTime.of(2024, 7, 22, 9, 0));
         boardService.delete(response.getBoardId());
         //then

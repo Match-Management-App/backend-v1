@@ -6,10 +6,10 @@ import com.match_management.demo.login.dto.SignUpRequest;
 import com.match_management.demo.login.dto.SignUpResponse;
 import com.match_management.demo.openApi.KakaoService;
 import com.match_management.demo.openApi.dto.KakaoInfo;
-import com.match_management.demo.user.User;
-import com.match_management.demo.user.UserRepository;
-import com.match_management.demo.user.UserService;
-import com.match_management.demo.user.exception.UserException;
+import com.match_management.demo.user.Member;
+import com.match_management.demo.user.MemberRepository;
+import com.match_management.demo.user.MemberService;
+import com.match_management.demo.user.exception.MemberException;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -20,27 +20,27 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class LoginService {
-    private final UserService userService;
-    private final UserRepository userRepository;
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final KakaoService kakaoService;
     private final JwtService jwtService;
 
     @Transactional
     public SignUpResponse signUp(final HttpServletResponse response, final SignUpRequest signUpRequest) {
         if (!Objects.equals(signUpRequest.getCode(), "MonsterUnited")) {
-            throw new UserException.UnMatchedCodeException();
+            throw new MemberException.UnMatchedCodeException();
         }
         //TODO 1 카카오 api에 정보 요청하기
         final KakaoInfo kakaoInfo = kakaoService.getUserInfo(signUpRequest.getAccessToken());
 
         //TODO 2 user 생성
-        final User user = userRepository.findByOauthId(kakaoInfo.getId())
-                .orElseGet(() -> userService.create(
+        final Member member = memberRepository.findByOauthId(kakaoInfo.getId())
+                .orElseGet(() -> memberService.create(
                         kakaoInfo.getId(), kakaoInfo.getProperties().getNickname(), signUpRequest.getPosition())
                 );
 
-        if (!user.isAuthenticated()) {
-            user.authenticateCustomCode(signUpRequest.getCode());
+        if (!member.isAuthenticated()) {
+            member.authenticateCustomCode(signUpRequest.getCode());
         }
 
         //TODO 3 accessToken 생성

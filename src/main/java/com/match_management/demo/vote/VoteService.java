@@ -2,9 +2,9 @@ package com.match_management.demo.vote;
 
 import com.match_management.demo.board.Board;
 import com.match_management.demo.board.BoardRepository;
-import com.match_management.demo.user.User;
-import com.match_management.demo.user.UserRepository;
-import com.match_management.demo.user.exception.UserException;
+import com.match_management.demo.user.Member;
+import com.match_management.demo.user.MemberRepository;
+import com.match_management.demo.user.exception.MemberException.NoMemberException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class VoteService {
     private final VoteRepository voteRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
     @Transactional
     public Long create(final Long userId, final Long boardId, final boolean isAttendance) {
@@ -61,8 +61,8 @@ public class VoteService {
         }
 
         return attendList.stream()
-                .map(v -> userRepository.findById(v.getUserId()).orElseThrow(UserException.NoUserException::new))
-                .map(User::getName)
+                .map(v -> memberRepository.findById(v.getUserId()).orElseThrow(NoMemberException::new))
+                .map(Member::getName)
                 .toList();
     }
 
@@ -76,8 +76,8 @@ public class VoteService {
         }
 
         return absentList.stream()
-                .map(v -> userRepository.findById(v.getUserId()).orElseThrow(UserException.NoUserException::new))
-                .map(User::getName)
+                .map(v -> memberRepository.findById(v.getUserId()).orElseThrow(NoMemberException::new))
+                .map(Member::getName)
                 .toList();
     }
 

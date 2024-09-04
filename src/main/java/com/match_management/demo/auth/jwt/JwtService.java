@@ -5,11 +5,10 @@ import com.match_management.demo.auth.jwt.dto.ReissueRequest;
 import com.match_management.demo.auth.jwt.dto.ReissueResponse;
 import com.match_management.demo.auth.jwt.exception.JwtException;
 import com.match_management.demo.cookie.CookieShop;
-import com.match_management.demo.user.User;
-import com.match_management.demo.user.UserRepository;
-import com.match_management.demo.user.exception.UserException;
+import com.match_management.demo.user.Member;
+import com.match_management.demo.user.MemberRepository;
+import com.match_management.demo.user.exception.MemberException.NoMemberException;
 import io.jsonwebtoken.Claims;
-import com.match_management.demo.user.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -47,7 +46,7 @@ public class JwtService {
     private String code;
     private static final String ACCESS = "accessToken";
     private static final String REFRESH = "refreshToken";
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     public String createAccessToken(final Long oauthId, final String name) {
         return createToken(oauthId, name, accessTokenExpireTime, ACCESS);
@@ -93,10 +92,10 @@ public class JwtService {
 
         final Long oauthId = claims.get("oauthId", Long.class);
 
-        final User user = userRepository.findByOauthId(oauthId).orElseThrow(UserException.NoUserException::new);
+        final Member member = memberRepository.findByOauthId(oauthId).orElseThrow(NoMemberException::new);
 
         return new UsernamePasswordAuthenticationToken(
-                new AuthUser(user.getOauthId(), user.getName()),
+                new AuthUser(member.getOauthId(), member.getName()),
                 "",
                 authorities
         );
@@ -150,11 +149,11 @@ public class JwtService {
 
         //refreshToken의 oauthId와 authentication의 oauthId가 일치하는지 확인
         final Claims claims = parseClaim(refreshToken);
-        final User user = userRepository.findByOauthId((Long) claims.get("oauthId"))
+        final Member member = memberRepository.findByOauthId((Long) claims.get("oauthId"))
                 .orElseThrow(JwtException.InValidUser::new);
 
         // 토큰 발행
-        final String newAccessToken = createAccessToken(user.getOauthId(), user.getName());
+        final String newAccessToken = createAccessToken(member.getOauthId(), member.getName());
 
         //다시 새로 쿠키에 추가
         CookieShop.bake(response, 30 * 60, "accessToken", newAccessToken);
