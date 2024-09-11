@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignUpResponse {
     private String accessToken;
+    private String refreshToken;
 
     @Builder
-    public SignUpResponse(final String accessToken) {
+    public SignUpResponse(final String accessToken, final String refreshToken) {
         this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 }

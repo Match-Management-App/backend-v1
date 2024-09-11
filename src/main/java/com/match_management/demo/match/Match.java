@@ -23,13 +23,13 @@ public class Match {
 
     @Builder
     public Match(final int year, final int month, final int day, final int hour,
-                 final String spot, final int attendance) {
+                 final String spot) {
         this.date = LocalDateTime.of(year, month, day, hour, 0);
         this.spot = spot;
-        this.attendance = attendance;
+        this.attendance = 0;
     }
 
-    public void setAttendance(final int attendance) {
-        this.attendance = attendance;
+    public void amendAttendance() {
+        this.attendance += 1;
     }
 }

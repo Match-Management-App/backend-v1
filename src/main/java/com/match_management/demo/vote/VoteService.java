@@ -1,10 +1,18 @@
 package com.match_management.demo.vote;
 
+import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.board.Board;
 import com.match_management.demo.board.BoardRepository;
+import com.match_management.demo.match.Match;
+import com.match_management.demo.match.MatchRepository;
+import com.match_management.demo.match.exception.MatchException;
 import com.match_management.demo.member.Member;
 import com.match_management.demo.member.MemberRepository;
+import com.match_management.demo.member.exception.MemberException;
 import com.match_management.demo.member.exception.MemberException.NoMemberException;
+import com.match_management.demo.vote.dto.VoteMatchRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,25 +29,35 @@ import org.springframework.transaction.annotation.Transactional;
 public class VoteService {
     private final VoteRepository voteRepository;
     private final MemberRepository memberRepository;
-    private final BoardRepository boardRepository;
+    private final MatchRepository matchRepository;
     @Transactional
-    public Long create(final Long userId, final Long boardId, final boolean isAttendance) {
-        final Board board = boardRepository.findById(boardId).orElseThrow(RuntimeException::new);
+    public Long create(final AuthUser authUser, final VoteMatchRequest voteMatchRequest) {
+        final Member member = memberRepository.findByOauthId(authUser.getOauthId())
+                .orElseThrow(MemberException.NoMemberException::new);
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        final Match match = matchRepository.findByDate(LocalDateTime.parse(voteMatchRequest.getMatchDay(), formatter))
+                .orElseThrow(MatchException.NoMatchException::new);
+
         final Vote vote = Vote
                 .builder()
-                .userId(userId)
-                .boardId(boardId)
-                .isAttendance(isAttendance)
-                .date(board.getMatchDate())
+                .userId(member.getId())
+                .matchId(match.getId())
+                .isAttendance(voteMatchRequest.isAttendance())
+                .date(match.getDate())
                 .build();
 
         voteRepository.save(vote);
 
+        if (voteMatchRequest.isAttendance()) {
+            match.amendAttendance();
+        }
+
         return vote.getId();
     }
 
-    public List<Integer> result(final Long boardId) {
-        final List<Vote> voteList = voteRepository.findAllByBoardId(boardId);
+    public List<Integer> result(final Long matchId) {
+        final List<Vote> voteList = voteRepository.findAllByMatchId(matchId);
 
         if (voteList.size() == 0) {
             return List.of(0, 0);
@@ -52,8 +70,8 @@ public class VoteService {
     }
 
     //참석 투표한 사람 이름
-    public List<String> attendNameList(final Long boardId) {
-        final List<Vote> attendList = voteRepository.findAllByBoardIdAndAttendanceIsTrue(boardId)
+    public List<String> attendNameList(final Long matchId) {
+        final List<Vote> attendList = voteRepository.findAllByBoardIdAndAttendanceIsTrue(matchId)
                 .orElse(null);
 
         if (attendList == null) {
@@ -67,8 +85,8 @@ public class VoteService {
     }
 
     //불참 투표한 사람 이름
-    public List<String> absentNameList(final Long boardId) {
-        final List<Vote> absentList = voteRepository.findAllByBoardIdAndAttendanceIsFalse(boardId)
+    public List<String> absentNameList(final Long matchId) {
+        final List<Vote> absentList = voteRepository.findAllByBoardIdAndAttendanceIsFalse(matchId)
                 .orElse(null);
 
         if (absentList == null) {

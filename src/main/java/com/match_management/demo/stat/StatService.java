@@ -1,6 +1,9 @@
 package com.match_management.demo.stat;
 
 import com.match_management.demo.auth.AuthUser;
+import com.match_management.demo.member.Member;
+import com.match_management.demo.member.MemberRepository;
+import com.match_management.demo.member.exception.MemberException;
 import com.match_management.demo.record.RecordService;
 import com.match_management.demo.stat.dto.RecentlyStatResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +21,17 @@ import java.util.List;
 public class StatService {
     final private StatRepository statRepository;
     final private RecordService recordService;
+    final private MemberRepository memberRepository;
 
     @Transactional
-    public Long create(final Long userId, final String matchDate,
+    public Long create(final Long oauthId, final String matchDate,
                        final int goal, final int assist, final int defence) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        final Member member = memberRepository.findByOauthId(oauthId)
+                .orElseThrow(MemberException.NoMemberException::new);
+
         final Stat stat = Stat.builder()
-                .userId(userId)
+                .userId(member.getId())
                 .matchDate(LocalDateTime.parse(matchDate, formatter))
                 .goal(goal)
                 .assist(assist)
@@ -34,13 +41,13 @@ public class StatService {
         statRepository.save(stat);
 
         if (goal != 0) {
-            recordService.accumulateGoalsStat(userId, goal);
+            recordService.accumulateGoalsStat(oauthId, goal);
         }
         if (assist != 0) {
-            recordService.accumulateAssistsStat(userId, assist);
+            recordService.accumulateAssistsStat(oauthId, assist);
         }
         if (defence != 0) {
-            recordService.accumulateDefencesStat(userId, defence);
+            recordService.accumulateDefencesStat(oauthId, defence);
         }
 
         return stat.getId();

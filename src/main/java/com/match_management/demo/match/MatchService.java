@@ -2,6 +2,8 @@ package com.match_management.demo.match;
 
 import com.match_management.demo.match.dto.MonthlyScheduleResponse;
 import com.match_management.demo.match.dto.NextMatchResponse;
+import com.match_management.demo.match.dto.SetNextMatchRequest;
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,5 +61,13 @@ public class MatchService {
                         .spot(m.getSpot())
                         .build())
                 .toList();
+    }
+
+    @Transactional
+    public void setMatch(final SetNextMatchRequest setNextMatchRequest) {
+        final List<Integer> split = Arrays.stream(setNextMatchRequest.getNextMatch().split("-"))
+                .map(Integer::parseInt)
+                .toList();
+        create(split.get(0), split.get(1), split.get(2), setNextMatchRequest.getHour(), setNextMatchRequest.getSpot());
     }
 }

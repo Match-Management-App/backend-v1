@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Tag(name = "chemical partner", description = "자신과 가장 합이 잘 맞는 유저를 찾는 api")
 public interface ChemicalPartnerApiDoc {
@@ -61,4 +62,7 @@ public interface ChemicalPartnerApiDoc {
     )
     @GetMapping("/goals/worst")
     ResponseEntity<ChemicalResponse> worstGoalChemicalPartner(@AuthUserInfo AuthUser authUser);
+
+    @PostMapping("/init")
+    ResponseEntity<String> init();
 }

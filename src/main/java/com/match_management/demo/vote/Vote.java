@@ -19,15 +19,15 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
-    private Long boardId;
+    private Long matchId;
     private LocalDateTime matchDate;
     private boolean attendance;
 
     @Builder
-    public Vote(final Long userId, final Long boardId,
+    public Vote(final Long userId, final Long matchId,
                 final LocalDateTime date, final boolean isAttendance) {
         this.userId = userId;
-        this.boardId = boardId;
+        this.matchId = matchId;
         this.matchDate = date;
         this.attendance = isAttendance;
     }

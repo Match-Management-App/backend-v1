@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
     Optional<Match> findById(final Long id);
-
+    Optional<Match> findByDate(final LocalDateTime date);
     @Query("select m from Match m where " +
             "function('YEAR', m.date) = :year AND FUNCTION('MONTH', m.date) = :month")
     List<Match> findByMonth(@Param(value = "year") final int year,

@@ -1,5 +1,7 @@
 package com.match_management.demo.record;
 
+import com.match_management.demo.member.Member;
+import com.match_management.demo.member.exception.MemberException;
 import com.match_management.demo.record.dto.TopStatMemberResponse;
 import com.match_management.demo.record.exception.RecordException;
 import com.match_management.demo.member.MemberRepository;
@@ -33,32 +35,36 @@ public class RecordService {
         return record.getId();
     }
     @Transactional
-    public void accumulateGoalsStat(final Long userId, final int goalPoints) {
-        final Record record = recordRepository.findByUserId(userId)
+    public void accumulateGoalsStat(final Long oauthId, final int goalPoints) {
+        final Member member = memberRepository.findByOauthId(oauthId).orElseThrow(MemberException.NoMemberException::new);
+        final Record record = recordRepository.findByUserId(member.getId())
                 .orElseThrow(RecordException.NoRecordException::new);
 
         record.accumulateGoalPoints(goalPoints);
     }
 
     @Transactional
-    public void accumulateAssistsStat(final Long userId, final int assistPoints) {
-        final Record record = recordRepository.findByUserId(userId)
+    public void accumulateAssistsStat(final Long oauthId, final int assistPoints) {
+        final Member member = memberRepository.findByOauthId(oauthId).orElseThrow(MemberException.NoMemberException::new);
+        final Record record = recordRepository.findByUserId(member.getId())
                 .orElseThrow(RecordException.NoRecordException::new);
 
         record.accumulateAssistPoints(assistPoints);
     }
 
     @Transactional
-    public void accumulateAttendanceStat(final Long userId, final int attendancePoints) {
-        final Record record = recordRepository.findByUserId(userId)
+    public void accumulateAttendanceStat(final Long oauthId, final int attendancePoints) {
+        final Member member = memberRepository.findByOauthId(oauthId).orElseThrow(MemberException.NoMemberException::new);
+        final Record record = recordRepository.findByUserId(member.getId())
                 .orElseThrow(RecordException.NoRecordException::new);
 
         record.accumulateAttendancePoints(attendancePoints);
     }
 
     @Transactional
-    public void accumulateDefencesStat(final Long userId, final int defencePoints) {
-        final Record record = recordRepository.findByUserId(userId)
+    public void accumulateDefencesStat(final Long oauthId, final int defencePoints) {
+        final Member member = memberRepository.findByOauthId(oauthId).orElseThrow(MemberException.NoMemberException::new);
+        final Record record = recordRepository.findByUserId(member.getId())
                 .orElseThrow(RecordException.NoRecordException::new);
 
         record.accumulateDefencePoints(defencePoints);

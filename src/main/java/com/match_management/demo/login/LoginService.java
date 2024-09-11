@@ -55,6 +55,7 @@ public class LoginService {
         return SignUpResponse
                 .builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 }

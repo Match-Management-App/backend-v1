@@ -33,10 +33,10 @@ public class VoteController implements VoteApiDoc {
     @PostMapping("")
     public ResponseEntity<HttpStatus> vote
             (@AuthUserInfo final AuthUser authUser,
-             final VoteMatchRequest voteMatchRequest
+             @RequestBody final VoteMatchRequest voteMatchRequest
             )
     {
-        voteService.create(authUser.getOauthId(), voteMatchRequest.getBoardId(), voteMatchRequest.isAttendance());
+        voteService.create(authUser, voteMatchRequest);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

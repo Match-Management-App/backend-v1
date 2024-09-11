@@ -7,6 +7,7 @@ import com.match_management.demo.chemicalPartner.swagger.ChemicalPartnerApiDoc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,5 +47,11 @@ public class ChemicalPartnerController implements ChemicalPartnerApiDoc {
                 .ok(
                         chemicalPartnerService.getWorstGoalPartner(authUser.getOauthId())
                 );
+    }
+
+    @PostMapping("/init")
+    public ResponseEntity<String> init() {
+        chemicalPartnerService.init();
+        return ResponseEntity.ok("OK");
     }
 }
