@@ -4,7 +4,7 @@ import com.match_management.demo.chemicalPartner.dto.ChemicalResponse;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.match_management.demo.user.MemberService;
+import com.match_management.demo.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
-package com.match_management.demo.user.swagger;
+package com.match_management.demo.member.swagger;
 
 import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.AuthUserInfo;
-import com.match_management.demo.user.dto.MemberNameResponse;
+import com.match_management.demo.member.dto.MemberNameResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

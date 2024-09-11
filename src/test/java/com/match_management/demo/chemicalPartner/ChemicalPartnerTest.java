@@ -1,7 +1,7 @@
 package com.match_management.demo.chemicalPartner;
 
 import com.match_management.demo.chemicalPartner.dto.ChemicalResponse;
-import com.match_management.demo.user.MemberService;
+import com.match_management.demo.member.MemberService;
 import java.time.LocalDate;
 import java.time.Month;
 

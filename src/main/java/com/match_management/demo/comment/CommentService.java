@@ -1,12 +1,12 @@
 package com.match_management.demo.comment;
 
 import com.match_management.demo.comment.exception.CommentException;
-import com.match_management.demo.user.exception.MemberException.NoMemberException;
+import com.match_management.demo.member.exception.MemberException.NoMemberException;
 import java.util.Comparator;
 import java.util.List;
 
 import com.match_management.demo.comment.dto.CommentsResponse;
-import com.match_management.demo.user.MemberRepository;
+import com.match_management.demo.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

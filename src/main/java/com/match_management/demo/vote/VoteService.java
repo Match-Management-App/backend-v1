@@ -2,9 +2,9 @@ package com.match_management.demo.vote;
 
 import com.match_management.demo.board.Board;
 import com.match_management.demo.board.BoardRepository;
-import com.match_management.demo.user.Member;
-import com.match_management.demo.user.MemberRepository;
-import com.match_management.demo.user.exception.MemberException.NoMemberException;
+import com.match_management.demo.member.Member;
+import com.match_management.demo.member.MemberRepository;
+import com.match_management.demo.member.exception.MemberException.NoMemberException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

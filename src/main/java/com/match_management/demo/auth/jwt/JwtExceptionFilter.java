@@ -4,7 +4,7 @@ import static com.fasterxml.jackson.core.JsonEncoding.UTF8;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.match_management.demo.auth.jwt.exception.JwtException;
-import com.match_management.demo.user.exception.MemberException;
+import com.match_management.demo.member.exception.MemberException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,8 +13,6 @@ import java.io.IOException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 

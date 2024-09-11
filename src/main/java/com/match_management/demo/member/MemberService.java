@@ -1,8 +1,8 @@
-package com.match_management.demo.user;
+package com.match_management.demo.member;
 
 import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.record.RecordService;
-import com.match_management.demo.user.exception.MemberException.NoMemberException;
+import com.match_management.demo.member.exception.MemberException.NoMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

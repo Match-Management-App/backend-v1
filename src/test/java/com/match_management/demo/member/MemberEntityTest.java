@@ -1,4 +1,4 @@
-package com.match_management.demo.user;
+package com.match_management.demo.member;
 
 import com.match_management.demo.record.Record;
 import com.match_management.demo.record.RecordRepository;

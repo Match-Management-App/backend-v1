@@ -1,4 +1,4 @@
-package com.match_management.demo.user.dto;
+package com.match_management.demo.member.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.match_management.demo.user;
+package com.match_management.demo.member;
 
-import com.match_management.demo.user.exception.MemberException;
+import com.match_management.demo.member.exception.MemberException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

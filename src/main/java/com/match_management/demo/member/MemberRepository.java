@@ -1,4 +1,4 @@
-package com.match_management.demo.user;
+package com.match_management.demo.member;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

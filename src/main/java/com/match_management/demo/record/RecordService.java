@@ -2,8 +2,8 @@ package com.match_management.demo.record;
 
 import com.match_management.demo.record.dto.TopStatMemberResponse;
 import com.match_management.demo.record.exception.RecordException;
-import com.match_management.demo.user.MemberRepository;
-import com.match_management.demo.user.exception.MemberException.NoMemberException;
+import com.match_management.demo.member.MemberRepository;
+import com.match_management.demo.member.exception.MemberException.NoMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

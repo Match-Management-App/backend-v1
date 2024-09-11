@@ -1,9 +1,9 @@
-package com.match_management.demo.user;
+package com.match_management.demo.member;
 
 import com.match_management.demo.auth.AuthUser;
 import com.match_management.demo.auth.AuthUserInfo;
-import com.match_management.demo.user.dto.MemberNameResponse;
-import com.match_management.demo.user.swagger.MemberApiDoc;
+import com.match_management.demo.member.dto.MemberNameResponse;
+import com.match_management.demo.member.swagger.MemberApiDoc;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

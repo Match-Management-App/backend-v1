@@ -1,4 +1,4 @@
-package com.match_management.demo.user.exception;
+package com.match_management.demo.member.exception;
 
 import com.match_management.demo.exception.ErrorCode;
 import lombok.AllArgsConstructor;

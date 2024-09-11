@@ -1,9 +1,9 @@
 package com.match_management.demo.vote;
 
 import com.match_management.demo.board.BoardService;
-import com.match_management.demo.user.Member;
-import com.match_management.demo.user.MemberRepository;
-import com.match_management.demo.user.MemberService;
+import com.match_management.demo.member.Member;
+import com.match_management.demo.member.MemberRepository;
+import com.match_management.demo.member.MemberService;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
